@@ -23,6 +23,3 @@ const StyledButton: React.FC<StyledButtonProps> = ({ text, onClick }) => {
 };
 
 export default StyledButton;
-
-
-// test
