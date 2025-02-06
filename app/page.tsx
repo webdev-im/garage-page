@@ -6,40 +6,53 @@ import Image from "next/image";
 import StyledButton from "./components/action/StyledButton";
 import { Translations } from "./context/LanguageContext";
 import { useLanguage } from "./context/LanguageContext";
+import { useTheme } from "next-themes"; // ⬅️ Theme detection
 
 export default function Home() {
   const { t, isLoaded } = useLanguage();
+  const { theme } = useTheme(); // ⬅️ Get current theme
 
   if (!isLoaded) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
 
+  // Select image based on theme
+  const carImage = theme === "dark" ? "/blackCar.png" : "/yellowCar.png";
+
   return (
-    <section className="h-screen bg-gray-800 dark:bg-yellow-400 text-gray-100 dark:text-gray-900 flex flex-col">
-      <Header />
-      <div className="flex-1 flex flex-col justify-between mt-32 lg:mt-24">
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 items-center gap-8 px-6 w-11/12 md:w-3/5 lg:w-8/10 mx-auto">
+    <section className="h-screen bg-gray-800 dark:bg-yellow-400 text-gray-100 dark:text-gray-900 flex flex-col justify-center aling-center">
+      <div className="bg-white/20 dark:bg-white/30 backdrop-blur-lg rounded-2xl h-[90%] mx-auto w-[90%] lg:w-[95%] flex flex-col justify-between items-center ">
+        <Header />
+        {/* texts and image */}
+
+
+        {/* texts and image*/}
+        <div className="flex flex-row-reverse w-[90%] lg:w-[60%] ">
           <div className="text-center lg:text-left">
             <p className="italic text-gray-400 dark:text-gray-600">{t("subheadline")}</p>
-            <h1 className="text-4xl md:text-5xl font-bold my-4">
-              {t("headline")} <span className="block">{t("cta")}</span>
+            <h1 className="text-4xl md:text-5xl font-black my-4">
+              {t("headline")}
             </h1>
             <p className="text-lg text-gray-300 dark:text-gray-700">{t("description")}</p>
-            <StyledButton text={t('cta')} />
+
+            {/* Increased gap on desktop */}
+            <StyledButton text={t("cta")} />
           </div>
 
-          <div className="flex justify-center">
+          {/* ✅ Ensuring Larger Image */}
+          <div className="flex justify-center w-full lg:ml-[100]">
             <Image
-              src="/car.png"
-              alt={t("openGraph.image_alt" as keyof Translations)} // ✅ Type assertion fix
-              width={800}
-              height={500}
-              className="rounded-lg w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+              src={carImage} // ⬅️ Dynamic Image
+              alt={t("openGraph.image_alt" as keyof Translations)}
+              width={800} // ⬆️ Larger width
+              height={600} // ⬆️ Larger height
+              className="rounded-lg w-auto w-full max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl"
+              priority // ⬅️ Ensures fast loading
             />
           </div>
         </div>
 
-        <footer className="bg-gray-700 dark:bg-yellow-300 p-6 rounded-t-xl shadow-inner">
+        <footer className="bg-white/30 dark:bg-white/30 w-[100%] rounded-2xl">
           <IconCards />
         </footer>
       </div>

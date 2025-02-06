@@ -12,14 +12,14 @@ export const Header = () => {
   const { t } = useLanguage();
 
   return (
-    <header className="fixed top-8 left-0 right-0 mx-auto w-[90%] lg:w-[60%] bg-white dark:bg-gray-900 shadow-md rounded-xl items-center justify-between flex px-6 py-2 lg:py-4 z-50 flex-row-reverse">
+    <header className=" mx-auto w-[90%] lg:w-[60%] bg-white dark:bg-gray-900 shadow-md rounded-xl items-center justify-between flex px-6 py-2 lg:py-4 z-50 flex-row-reverse">
       {/* Logo (Left) */}
       <div className="flex items-center flex-none">
         <Logo />
       </div>
 
       {/* Navigation Links (Middle) */}
-      <nav className="hidden lg:flex justify-center space-x-6">
+      <nav className="hidden lg:flex justify-center">
         <NavLink label={t("contact")} href="#" />
         <NavLink label={t("services")} href="#" />
         <NavLink label={t("map")} href="#" />

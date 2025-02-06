@@ -16,23 +16,23 @@ export default function IconCards() {
     { key: "ignition", file: "Ignition.svg" },
     { key: "repairs", file: "Repairs.svg" },
     { key: "rotor", file: "Rotor.svg" },
-    { key: "service", file: "Service.svg" },
+    // { key: "service", file: "Service.svg" },
     { key: "steering_wheel", file: "Steering wheel.svg" },
   ];
 
   return (
     <div className="flex flex-wrap justify-center gap-6 p-6">
       {icons.map((icon, index) => (
-     <IconCard
-  key={index}
-  icon={{
-    name: t(`icons.${icon.key}.name` as keyof Translations), // ✅ Type assertion
-    file: icon.file,
-    description: t(`icons.${icon.key}.description` as keyof Translations), // ✅ Type assertion
-  }}
-/>
+        <IconCard
+          key={index}
+          icon={{
+            name: t(`icons.${icon.key}.name` as keyof Translations), // ✅ Type assertion
+            file: icon.file,
+            description: t(`icons.${icon.key}.description` as keyof Translations), // ✅ Type assertion
+          }}
+        />
 
-    
+
       ))}
     </div>
   );

@@ -16,6 +16,9 @@ export default {
         lightText: "#000000",
         accentYellow: "#ffd700",
       },
+      fontFamily: {
+        sans: ["GT Walsheim Pro", "sans-serif"], // Default fallback
+      },
     },
   },
   plugins: [],

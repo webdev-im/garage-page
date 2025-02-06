@@ -14,6 +14,71 @@
   }
 }
 
+/* Thin */
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url("/fonts/gt-walsheim-pro/GTWalsheimPro-Thin.woff") format("woff");
+  font-weight: 100;
+  font-style: normal;
+}
+
+/* Ultra Light */
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url("/fonts/gt-walsheim-pro/GTWalsheimPro-UltraLight.woff")
+    format("woff");
+  font-weight: 200;
+  font-style: normal;
+}
+
+/* Light */
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url("/fonts/gt-walsheim-pro/GTWalsheimPro-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Regular */
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url("/fonts/gt-walsheim-pro/GTWalsheimPro-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Medium */
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url("/fonts/gt-walsheim-pro/GTWalsheimPro-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* Bold */
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url("/fonts/gt-walsheim-pro/GTWalsheimPro-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Ultra Bold */
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url("/fonts/gt-walsheim-pro/GTWalsheimPro-UltraBold.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+}
+
+/* Black */
+@font-face {
+  font-family: "GT Walsheim Pro";
+  src: url("/fonts/gt-walsheim-pro/GTWalsheimPro-Black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+}
+
 /* Default theme styles */
 html {
   color-scheme: light;
@@ -31,6 +96,6 @@ html.dark {
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: "GT Walsheim Pro", sans-serif;
   transition: background-color 0.3s, color 0.3s;
 }

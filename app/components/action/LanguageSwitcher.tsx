@@ -33,18 +33,16 @@ export default function LanguageSwitcher() {
       <div className="absolute inset-0 flex items-center justify-between px-2">
         {/* Lithuanian */}
         <span
-          className={`text-sm font-medium ${
-            isLithuanian ? "text-gray-400" : "text-gray-500"
-          }`}
+          className={`text-sm font-medium ${isLithuanian ? "text-gray-400" : "text-gray-500"
+            }`}
         >
           EN
         </span>
 
         {/* English */}
         <span
-          className={`text-sm font-medium ${
-            isLithuanian ? "text-gray-500" : "text-gray-400"
-          }`}
+          className={`text-sm font-medium ${isLithuanian ? "text-gray-500" : "text-gray-400"
+            }`}
         >
           LT
         </span>

@@ -20,12 +20,12 @@ export const ThemeToggler = () => {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full transition"
+      className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full transition ml-3"
     >
       {theme === "dark" ? (
-        <SunIcon className="w-6 h-6 text-yellow-400" />
+        <SunIcon className="w-5 h-5 text-yellow-400" />
       ) : (
-        <MoonIcon className="w-6 h-6 text-gray-900" />
+        <MoonIcon className="w-5 h-5 text-gray-900" />
       )}
     </button>
   );
