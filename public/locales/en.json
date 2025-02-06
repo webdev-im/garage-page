@@ -1,0 +1,77 @@
+{
+  "title": "Repairs Made Simple | Fast & Reliable Auto Care",
+  "headline": "REPAIRS MADE SIMPLE",
+  "subheadline": "Fast, Reliable, and Affordable Auto Care",
+  "description": "From minor tune-ups to major repairs, we make car servicing hassle-free so you can get back on the road with confidence.",
+  "cta": "Book an appointment",
+  "contact": "Contact",
+  "services": "Our Services",
+  "map": "Map",
+  "keywords": {
+    "car_repair": "car repair",
+    "auto_care": "auto care",
+    "vehicle_service": "vehicle service",
+    "mechanic": "mechanic",
+    "car_maintenance": "car maintenance"
+  },
+  "openGraph": {
+    "title": "Fast & Reliable Auto Repairs",
+    "description": "Get your car repaired quickly and reliably with our hassle-free auto care services.",
+    "image": "/images/og-image.jpg",
+    "image_alt": "Car Service"
+  },
+  "twitter": {
+    "title": "Reliable Auto Care",
+    "description": "Fast, reliable, and affordable car repairs"
+  },
+  "icons": {
+    "battery": {
+      "name": "Battery",
+      "description": "Battery check and replacement services"
+    },
+    "brake": {
+      "name": "Brakes",
+      "description": "Brake repair and maintenance"
+    },
+    "dashboard": {
+      "name": "Dashboard",
+      "description": "Dashboard diagnostics and repair"
+    },
+    "electric": {
+      "name": "Electronics",
+      "description": "Electrical system check-up"
+    },
+    "filter": {
+      "name": "Filter",
+      "description": "Filter replacement for cleaner performance"
+    },
+    "fuel": {
+      "name": "Fuel System",
+      "description": "Fuel system maintenance and repairs"
+    },
+    "gearbox": {
+      "name": "Gearbox",
+      "description": "Gearbox inspection and repairs"
+    },
+    "ignition": {
+      "name": "Ignition",
+      "description": "Ignition system diagnostics"
+    },
+    "repairs": {
+      "name": "Repairs",
+      "description": "General car repair services"
+    },
+    "rotor": {
+      "name": "Rotor",
+      "description": "Rotor repair and replacement"
+    },
+    "service": {
+      "name": "Service",
+      "description": "Full car service check"
+    },
+    "steering_wheel": {
+      "name": "Steering System",
+      "description": "Steering adjustment and repairs"
+    }
+  }
+}

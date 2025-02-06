@@ -1,0 +1,74 @@
+{
+  "title": "Paprastas remontas | Greita ir patikima automobilių priežiūra",
+  "headline": "PAPRASTAS REMONTAS",
+  "subheadline": "Greita, patikima ir prieinama automobilių priežiūra",
+  "description": "Nuo smulkių reguliavimų iki didelių remontų – mes pasirūpinsime jūsų automobiliu, kad galėtumėte drąsiai grįžti į kelią",
+  "cta": "Užsisakyti susitikimą",
+  "contact": "Kontaktai",
+  "services": "Mūsų Paslaugos",
+  "map": "Žemėlapis",
+  "keywords": {
+    "car_repair": "automobilių remontas",
+    "auto_care": "automobilių priežiūra",
+    "vehicle_service": "transporto priemonių paslaugos",
+    "mechanic": "mechanikas",
+    "car_maintenance": "automobilių priežiūra"
+  },
+  "openGraph": {
+    "description": "Gaukite greitą ir patikimą automobilių remontą be rūpesčių",
+    "image_alt": "Automobilių servisas"
+  },
+  "twitter": {
+    "description": "Greitas, patikimas ir prieinamas automobilių remontas"
+  },
+  "icons": {
+    "battery": {
+      "name": "Baterija",
+      "description": "Baterijos tikrinimas ir keitimas"
+    },
+    "brake": {
+      "name": "Stabdžiai",
+      "description": "Stabdžių remontas ir priežiūra"
+    },
+    "dashboard": {
+      "name": "Prietaisų skydelis",
+      "description": "Prietaisų skydelio diagnostika ir remontas"
+    },
+    "electric": {
+      "name": "Elektronika",
+      "description": "Elektros sistemos tikrinimas"
+    },
+    "filter": {
+      "name": "Filtras",
+      "description": "Filtrų keitimas švaresniam veikimui"
+    },
+    "fuel": {
+      "name": "Kuro sistema",
+      "description": "Kuro sistemos priežiūra ir remontas"
+    },
+    "gearbox": {
+      "name": "Pavarų dėžė",
+      "description": "Pavarų dėžės patikra ir remontas"
+    },
+    "ignition": {
+      "name": "Uždegimas",
+      "description": "Uždegimo sistemos diagnostika"
+    },
+    "repairs": {
+      "name": "Remontas",
+      "description": "Bendros automobilių remonto paslaugos"
+    },
+    "rotor": {
+      "name": "Rotor",
+      "description": "Rotorų remontas ir keitimas"
+    },
+    "service": {
+      "name": "Servisas",
+      "description": "Pilnas automobilio aptarnavimas"
+    },
+    "steering_wheel": {
+      "name": "Vairo sistema",
+      "description": "Vairo reguliavimas ir remontas"
+    }
+  }
+}

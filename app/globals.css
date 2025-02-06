@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* Default theme styles */
+html {
+  color-scheme: light;
+  background-color: #ffc107; /* Light mode background */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html.dark {
+  color-scheme: dark;
+  background-color: #1a1a1a; /* Dark mode background */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}

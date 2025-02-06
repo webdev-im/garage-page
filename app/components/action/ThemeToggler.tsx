@@ -1,0 +1,32 @@
+"use client";
+
+import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
+import { useEffect, useState } from "react";
+
+import { useTheme } from "next-themes";
+
+export const ThemeToggler = () => {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Prevents hydration mismatch by ensuring it renders only on the client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything until mounted to prevent hydration errors
+  if (!mounted) return null;
+
+  return (
+    <button
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full transition"
+    >
+      {theme === "dark" ? (
+        <SunIcon className="w-6 h-6 text-yellow-400" />
+      ) : (
+        <MoonIcon className="w-6 h-6 text-gray-900" />
+      )}
+    </button>
+  );
+};
