@@ -7,13 +7,19 @@ import { ThemeToggler } from "../action/ThemeToggler";
 import { useLanguage } from "../../context/LanguageContext";
 import { useState } from "react";
 
-export const Header = ({ setModalOpen }: { setModalOpen: (open: boolean) => void }) => {
+export const Header = ({
+  setLocationModalOpen,
+  setContactModalOpen
+}: {
+  setLocationModalOpen: (open: boolean) => void;
+  setContactModalOpen: (open: boolean) => void;
+}) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
   const { t } = useLanguage();
 
   return (
-    <header className=" mx-auto w-[90%] lg:w-[60%] bg-white dark:bg-gray-900 shadow-md rounded-xl items-center justify-between flex px-6 py-2 lg:py-4 z-50 flex-row-reverse">
+    <header className="mx-auto w-[90%] lg:w-[60%] bg-white dark:bg-gray-900 shadow-md rounded-xl items-center justify-between flex px-6 py-2 lg:py-4 z-50 flex-row-reverse">
       {/* Logo (Left) */}
       <div className="flex items-center flex-none">
         <Logo />
@@ -21,9 +27,9 @@ export const Header = ({ setModalOpen }: { setModalOpen: (open: boolean) => void
 
       {/* Navigation Links (Middle) */}
       <nav className="hidden lg:flex justify-center">
-        <NavLink label={t("contact")} href="#" />
+        <NavLink label={t("contact")} href="#" onClick={() => setContactModalOpen(true)} />
         <NavLink label={t("services")} href="#" />
-        <NavLink label={t("map")} href="#" onClick={() => setModalOpen(true)} />
+        <NavLink label={t("map")} href="#" onClick={() => setLocationModalOpen(true)} />
       </nav>
 
       {/* Theme & Language Switchers (Right) */}
@@ -34,7 +40,13 @@ export const Header = ({ setModalOpen }: { setModalOpen: (open: boolean) => void
       </div>
 
       {/* Mobile Drawer */}
-      {isDrawerOpen && <MobileDrawer toggleDrawer={toggleDrawer} />}
+      {isDrawerOpen && (
+        <MobileDrawer
+          toggleDrawer={toggleDrawer}
+          setLocationModalOpen={setLocationModalOpen}
+          setContactModalOpen={setContactModalOpen}
+        />
+      )}
     </header>
   );
 };
@@ -48,14 +60,17 @@ const Logo = () => (
 interface NavLinkProps {
   label: string;
   href: string;
-  onClick?: () => void; // ✅ Allow onClick optionally
+  onClick?: () => void;
 }
 
 const NavLink = ({ label, href, onClick }: NavLinkProps) => (
   <Link
     href={href}
     className="text-black dark:text-white hover:underline transition-colors px-4"
-    onClick={onClick}
+    onClick={(e) => {
+      e.preventDefault();
+      if (onClick) onClick();
+    }}
   >
     {label}
   </Link>
@@ -71,7 +86,15 @@ const MobileMenuIcon = ({ toggleDrawer }: { toggleDrawer: () => void }) => (
   </button>
 );
 
-const MobileDrawer = ({ toggleDrawer }: { toggleDrawer: () => void }) => {
+const MobileDrawer = ({
+  toggleDrawer,
+  setLocationModalOpen,
+  setContactModalOpen
+}: {
+  toggleDrawer: () => void;
+  setLocationModalOpen: (open: boolean) => void;
+  setContactModalOpen: (open: boolean) => void;
+}) => {
   const { t } = useLanguage();
 
   return (
@@ -92,9 +115,9 @@ const MobileDrawer = ({ toggleDrawer }: { toggleDrawer: () => void }) => {
           ✕
         </button>
         <nav className="flex flex-col items-start p-6 space-y-4">
-          <NavLink label={t("contact")} href="#" />
+          <NavLink label={t("contact")} href="#" onClick={() => { setContactModalOpen(true); toggleDrawer(); }} />
           <NavLink label={t("services")} href="#" />
-          <NavLink label={t("map")} href="#" />
+          <NavLink label={t("map")} href="#" onClick={() => { setLocationModalOpen(true); toggleDrawer(); }} />
           <ThemeToggler />
           <LanguageSwitcher />
         </nav>

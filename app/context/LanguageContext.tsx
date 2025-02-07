@@ -19,6 +19,11 @@ export interface Translations {
   ourLocation: string;
   close: string;
   reserveNow: string;
+  contactUs: string;
+  address: string;
+  workingHours: string;
+  monFri: string;
+  phone: string;
   keywords: {
     car_repair: string;
     auto_care: string;
@@ -64,6 +69,11 @@ const getSafeTranslations = (data: Partial<Translations>): Translations => ({
   ourLocation: data.map ?? "Our location",
   close: data.close ?? "Close",
   reserveNow: data.reserveNow ?? "Reserve now",
+  contactUs: data.contactUs ?? "Contact us",
+  address: data.address ?? "Address",
+  workingHours: data.workingHours ?? "Working hours",
+  monFri: data.monFri ?? "Mon - Fri",
+  phone: data.phone ?? "Phone",
   keywords: {
     car_repair: data.keywords?.car_repair ?? "Car Repair",
     auto_care: data.keywords?.auto_care ?? "Auto Care",
