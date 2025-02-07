@@ -35,12 +35,8 @@ export const Header = ({
       </div>
 
       {/* Navigation Links (Middle) */}
-      <nav className="hidden lg:flex justify-center">
-        <NavLink
-          label={t("contact")}
-          href="#"
-          onClick={() => setContactModalOpen(true)}
-        />
+      <nav className="hidden lg:flex justify-center flex-row-reverse">
+
         <NavLink
           label={t("services")}
           href="#"
@@ -50,6 +46,11 @@ export const Header = ({
           label={t("map")}
           href="#"
           onClick={() => setLocationModalOpen(true)}
+        />
+        <NavLink
+          label={t("contact")}
+          href="#"
+          onClick={() => setContactModalOpen(true)}
         />
       </nav>
 
@@ -107,7 +108,6 @@ const MobileDrawer = ({
   setLocationModalOpen,
   setContactModalOpen,
   onServicesClick,
-  onLogoClick,
 }: {
   toggleDrawer: () => void;
   setLocationModalOpen: (open: boolean) => void;
@@ -148,14 +148,6 @@ const MobileDrawer = ({
         {/* Navigation Links */}
         <nav className="flex flex-col items-start p-6 space-y-6 mt-2">
           <NavLink
-            label={t("contact")}
-            href="#"
-            onClick={() => {
-              setContactModalOpen(true);
-              toggleDrawer();
-            }}
-          />
-          <NavLink
             label={t("services")}
             href="#"
             onClick={() => {
@@ -171,6 +163,16 @@ const MobileDrawer = ({
               toggleDrawer();
             }}
           />
+          <NavLink
+            label={t("contact")}
+            href="#"
+            onClick={() => {
+              setContactModalOpen(true);
+              toggleDrawer();
+            }}
+          />
+
+
         </nav>
 
         {/* Bottom Close Button (Larger Gap) */}

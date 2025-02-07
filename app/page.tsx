@@ -3,6 +3,7 @@
 import { Header } from "./components/layout/Header";
 import IconCards from "./components/layout/IconCards";
 import Image from "next/image";
+import ServiceCards from "./components/layout/ServiceCards";
 import StyledButton from "./components/action/StyledButton";
 import { Translations } from "./context/LanguageContext";
 import { useLanguage } from "./context/LanguageContext";
@@ -86,37 +87,58 @@ export default function Home() {
       <div className="relative bg-white/20 dark:bg-white/30 backdrop-blur-lg rounded-2xl h-[95%] lg:h-[90%]mx-auto w-[90%] lg:w-[95%] flex flex-col justify-between items-center border-4 border-transparent animate-pulse-border">
         {/* ✅ Fixed: Passing the correct modal state functions */}
         <Header
-          setLocationModalOpen={() => { }}
-          setContactModalOpen={() => { }}
+          setLocationModalOpen={setLocationModalOpen}
+          setContactModalOpen={setContactModalOpen}
           onLogoClick={() => setIsServicesPage(false)} // Show default layout
           onServicesClick={() => setIsServicesPage(true)} // Show services layout
         />
-
-        {/* Texts and Image */}
-        <div className="flex flex-col-reverse lg:flex-row-reverse w-[90%] lg:w-[60%] mt-[40] mb-[40]">
-          <div className="text-left mt-[20]">
-            <p className="italic text-gray-400 dark:text-gray-600">{t("subheadline")}</p>
-            <h1 className="text-4xl md:text-5xl font-black my-4 mb-6">{t("headline")}</h1>
-            <p className="text-lg text-gray-300 dark:text-gray-700">{t("description")}</p>
-            <StyledButton text={t("reserveNow" as keyof Translations)} onClick={() => setContactModalOpen(true)} />
+        {/* Services page */}
+        {isServicesPage ? <div className="text-center">
+          <div className="text-center my-8">
+            {/* Title */}
+            <h1 className="text-4xl md:text-6xl font-extrabold text-gray-100 dark:text-gray-800">
+              {t("servicesPageTitle")}
+            </h1>
+            {/* Subtitle */}
+            <p className="mt-4 text-lg md:text-xl text-gray-300 dark:text-gray-600 max-w-2xl mx-auto">
+              {t("servicesPageSubtitle")}
+            </p>
+            {/* Slogan */}
+            <p className="mt-2 italic text-sm md:text-lg text-gray-400 dark:text-gray-500">
+              {t("servicesPageSlogan")}
+            </p>
           </div>
+          <ServiceCards />
+        </div> : <>
 
-          {/* Car Image - Fixed Aspect Ratio & Prevented Distortion */}
-          <div className="flex justify-center w-full lg:ml-[100]">
-            <Image
-              src={carImage}
-              alt={t("openGraph.image_alt" as keyof Translations)}
-              width={800}
-              height={600}
-              className="rounded-lg object-contain max-w-full h-auto"
-              priority
-            />
-          </div>
-        </div>
+          {/* Texts and Image */}
+          <div className="flex flex-col-reverse lg:flex-row-reverse w-[90%] lg:w-[60%] mt-[40] mb-[40]">
+            <div className="text-left mt-[20]">
+              <p className="italic text-gray-400 dark:text-gray-600">{t("subheadline")}</p>
+              <h1 className="text-4xl md:text-5xl font-black my-4 mb-6">{t("headline")}</h1>
+              <p className="text-lg text-gray-300 dark:text-gray-700">{t("description")}</p>
+              <StyledButton text={t("reserveNow" as keyof Translations)} onClick={() => setContactModalOpen(true)} />
+            </div>
 
-        <footer className="bg-white/30 dark:bg-white/30 w-[100%] rounded-2xl mt-[20]" >
+            {/* Car Image - Fixed Aspect Ratio & Prevented Distortion */}
+            <div className="flex justify-center w-full lg:ml-[100]">
+              <Image
+                src={carImage}
+                alt={t("openGraph.image_alt" as keyof Translations)}
+                width={800}
+                height={600}
+                className="rounded-lg object-contain max-w-full h-auto"
+                priority
+              />
+            </div>
+          </div></>}
+
+
+        {!isServicesPage && <footer className="bg-white/30 dark:bg-white/30 w-[100%] rounded-2xl mt-[20]" >
           <IconCards />
-        </footer>
+        </footer>}
+        {isServicesPage && <div className="h-10"></div>}
+
       </div>
 
       {/* Tailwind Keyframes */}

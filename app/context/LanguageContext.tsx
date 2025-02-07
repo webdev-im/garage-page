@@ -25,6 +25,9 @@ export interface Translations {
   workingHours: string;
   monFri: string;
   phone: string;
+  servicesPageTitle: string;
+  servicesPageSubtitle: string;
+  servicesPageSlogan: string;
   keywords: {
     car_repair: string;
     auto_care: string;
@@ -76,6 +79,9 @@ const getSafeTranslations = (data: Partial<Translations>): Translations => ({
   workingHours: data.workingHours ?? "Working hours",
   monFri: data.monFri ?? "Mon - Fri",
   phone: data.phone ?? "Phone",
+  servicesPageTitle: data.servicesPageTitle ?? "Explore our services",
+  servicesPageSubtitle: data.servicesPageSubtitle ?? "Quality care for your vehicle, driven by expertise and presition",
+  servicesPageSlogan: data.servicesPageSlogan ?? "Your car deserves the best – and we deliver it",
   keywords: {
     car_repair: data.keywords?.car_repair ?? "Car Repair",
     auto_care: data.keywords?.auto_care ?? "Auto Care",
