@@ -1,10 +1,11 @@
-import { Metadata } from "next";
-import { dir } from "i18next";
 import "./globals.css";
-import enData from "@/public/locales/en.json" assert { type: "json" };
-import ltData from "@/public/locales/lt.json" assert { type: "json" };
+
 import { LanguageProvider } from "./context/LanguageContext";
-import { ThemeProvider } from "next-themes";
+import { Metadata } from "next";
+import ThemeWrapper from "./components/layout/ThemeWrapper"; // ✅ Import ThemeWrapper
+import { dir } from "i18next";
+import enData from "@/public/locales/en.json";
+import ltData from "@/public/locales/lt.json";
 
 // ✅ Define a strict type for translations
 interface TranslationData {
@@ -38,17 +39,16 @@ interface TranslationData {
   };
 }
 
-// ✅ Ensure TypeScript correctly recognizes JSON as an object
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
   const language = params.locale || "en";
 
-  // ✅ Fix TypeScript error by explicitly casting JSON as an object
+
   const translations: TranslationData = (language === "lt" ? ltData : enData) as TranslationData;
 
   return {
     title: translations.title,
     description: translations.description,
-    keywords: Object.values(translations.keywords), // ✅ Convert object to array
+    keywords: Object.values(translations.keywords),
     openGraph: {
       title: translations.title,
       description: translations.openGraph.description,
@@ -85,11 +85,11 @@ export default function RootLayout({
   return (
     <html lang={params.locale} dir={dir(params.locale)}>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="system">
+        <ThemeWrapper> {/* ✅ Ensures theme is applied only on client */}
           <LanguageProvider>
             {children}
           </LanguageProvider>
-        </ThemeProvider>
+        </ThemeWrapper>
       </body>
     </html>
   );

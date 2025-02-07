@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { IoMenu } from "react-icons/io5";
 import LanguageSwitcher from "../action/LanguageSwitcher";
@@ -9,33 +9,59 @@ import { useState } from "react";
 
 export const Header = ({
   setLocationModalOpen,
-  setContactModalOpen
+  setContactModalOpen,
+  onLogoClick,
+  onServicesClick,
 }: {
   setLocationModalOpen: (open: boolean) => void;
   setContactModalOpen: (open: boolean) => void;
+  onLogoClick: () => void; // Callback for logo click
+  onServicesClick: () => void; // Callback for services click
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
   const { t } = useLanguage();
 
   return (
-    <header className="mx-auto w-[90%] lg:w-[60%] bg-white dark:bg-gray-900 shadow-md rounded-xl items-center justify-between flex px-6 py-2 lg:py-4 z-50 flex-row-reverse">
+    <header className="mx-auto w-[100%] lg:w-[60%] bg-white dark:bg-gray-900 shadow-md rounded-xl flex items-center justify-between px-6 py-2 lg:py-4 z-50 flex-row-reverse">
       {/* Logo (Left) */}
       <div className="flex items-center flex-none">
-        <Logo />
+        <h1
+          className="text-lg font-bold text-black dark:text-white cursor-pointer"
+          onClick={onLogoClick} // Call onLogoClick when clicked
+        >
+          G - SERVICE
+        </h1>
       </div>
 
       {/* Navigation Links (Middle) */}
       <nav className="hidden lg:flex justify-center">
-        <NavLink label={t("contact")} href="#" onClick={() => setContactModalOpen(true)} />
-        <NavLink label={t("services")} href="#" />
-        <NavLink label={t("map")} href="#" onClick={() => setLocationModalOpen(true)} />
+        <NavLink
+          label={t("contact")}
+          href="#"
+          onClick={() => setContactModalOpen(true)}
+        />
+        <NavLink
+          label={t("services")}
+          href="#"
+          onClick={onServicesClick} // Call onServicesClick when clicked
+        />
+        <NavLink
+          label={t("map")}
+          href="#"
+          onClick={() => setLocationModalOpen(true)}
+        />
       </nav>
 
-      {/* Theme & Language Switchers (Right) */}
+      {/* Right Section: Theme & Language for Desktop, Menu Icon for Mobile */}
       <div className="flex items-center space-x-4">
-        <ThemeToggler />
-        <LanguageSwitcher />
+        {/* ✅ Show on Desktop Only */}
+        <div className="hidden lg:flex space-x-4">
+          <ThemeToggler />
+          <LanguageSwitcher />
+        </div>
+
+        {/* ✅ Show Mobile Menu Button on Small Screens */}
         <MobileMenuIcon toggleDrawer={toggleDrawer} />
       </div>
 
@@ -45,25 +71,15 @@ export const Header = ({
           toggleDrawer={toggleDrawer}
           setLocationModalOpen={setLocationModalOpen}
           setContactModalOpen={setContactModalOpen}
+          onServicesClick={onServicesClick} // Pass callback for services click
+          onLogoClick={onLogoClick} // Pass callback for logo click
         />
       )}
     </header>
   );
 };
 
-const Logo = () => (
-  <div className="flex items-center">
-    <h1 className="text-lg font-bold text-black dark:text-white">G - SERVICE</h1>
-  </div>
-);
-
-interface NavLinkProps {
-  label: string;
-  href: string;
-  onClick?: () => void;
-}
-
-const NavLink = ({ label, href, onClick }: NavLinkProps) => (
+const NavLink = ({ label, href, onClick }: { label: string; href: string; onClick?: () => void }) => (
   <Link
     href={href}
     className="text-black dark:text-white hover:underline transition-colors px-4"
@@ -89,11 +105,15 @@ const MobileMenuIcon = ({ toggleDrawer }: { toggleDrawer: () => void }) => (
 const MobileDrawer = ({
   toggleDrawer,
   setLocationModalOpen,
-  setContactModalOpen
+  setContactModalOpen,
+  onServicesClick,
+  onLogoClick,
 }: {
   toggleDrawer: () => void;
   setLocationModalOpen: (open: boolean) => void;
   setContactModalOpen: (open: boolean) => void;
+  onServicesClick: () => void; // Callback for services click
+  onLogoClick: () => void; // Callback for logo click
 }) => {
   const { t } = useLanguage();
 
@@ -106,21 +126,62 @@ const MobileDrawer = ({
       ></div>
 
       {/* Drawer */}
-      <div className="fixed right-0 top-0 h-full w-64 z-50 bg-white dark:bg-gray-900 shadow-lg transform transition-transform duration-300">
-        <button
-          className="absolute top-4 right-4 text-black dark:text-white"
-          onClick={toggleDrawer}
-          aria-label="Close Menu"
-        >
-          ✕
-        </button>
-        <nav className="flex flex-col items-start p-6 space-y-4">
-          <NavLink label={t("contact")} href="#" onClick={() => { setContactModalOpen(true); toggleDrawer(); }} />
-          <NavLink label={t("services")} href="#" />
-          <NavLink label={t("map")} href="#" onClick={() => { setLocationModalOpen(true); toggleDrawer(); }} />
-          <ThemeToggler />
-          <LanguageSwitcher />
+      <div className="fixed right-0 top-0 h-full w-64 z-50 bg-white dark:bg-gray-900 shadow-lg transform transition-transform duration-300 flex flex-col">
+        {/* Header Section (Close Button + Togglers) */}
+        <div className="flex flex-row-reverse items-center justify-between px-3 py-4 border-b border-gray-300 dark:border-gray-700">
+          {/* Theme & Language Switchers (Left Side) */}
+          <div className="flex space-x-3">
+            <ThemeToggler />
+            <LanguageSwitcher />
+          </div>
+
+          {/* Close Button (Right Side) */}
+          <button
+            className="text-black dark:text-white text-xl"
+            onClick={toggleDrawer}
+            aria-label="Close Menu"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Navigation Links */}
+        <nav className="flex flex-col items-start p-6 space-y-6 mt-2">
+          <NavLink
+            label={t("contact")}
+            href="#"
+            onClick={() => {
+              setContactModalOpen(true);
+              toggleDrawer();
+            }}
+          />
+          <NavLink
+            label={t("services")}
+            href="#"
+            onClick={() => {
+              onServicesClick();
+              toggleDrawer();
+            }}
+          />
+          <NavLink
+            label={t("map")}
+            href="#"
+            onClick={() => {
+              setLocationModalOpen(true);
+              toggleDrawer();
+            }}
+          />
         </nav>
+
+        {/* Bottom Close Button (Larger Gap) */}
+        <div className="p-6 mt-auto">
+          <button
+            className="w-full bg-gray-200 dark:bg-gray-700 text-black dark:text-white py-2 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+            onClick={toggleDrawer}
+          >
+            {t("close")}
+          </button>
+        </div>
       </div>
     </>
   );

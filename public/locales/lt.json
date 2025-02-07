@@ -11,6 +11,7 @@
   "address": "Adresas",
   "services": "Mūsų Paslaugos",
   "map": "Žemėlapis",
+  "location": "Mūsų adresas",
   "ourLocation": "Mūsų vieta",
   "close": "Uždaryti",
   "reserveNow": "Rezervuoti vietą",
@@ -31,8 +32,8 @@
   },
   "icons": {
     "battery": {
-      "name": "Baterija",
-      "description": "Baterijos tikrinimas ir keitimas"
+      "name": "Akumuliatorius",
+      "description": "Akumuliatoriaus tikrinimas ir keitimas"
     },
     "brake": {
       "name": "Stabdžiai",
@@ -67,7 +68,7 @@
       "description": "Bendros automobilių remonto paslaugos"
     },
     "rotor": {
-      "name": "Rotor",
+      "name": "Rotorius",
       "description": "Rotorų remontas ir keitimas"
     },
     "service": {

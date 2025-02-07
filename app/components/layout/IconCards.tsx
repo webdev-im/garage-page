@@ -9,15 +9,16 @@ export default function IconCards() {
     { key: "battery", file: "Battery.svg" },
     { key: "brake", file: "Brake.svg" },
     { key: "dashboard", file: "Dashboard.svg" },
-    { key: "electric", file: "Electric.svg" },
     { key: "filter", file: "Filter.svg" },
     { key: "fuel", file: "Fuel.svg" },
     { key: "gearbox", file: "Gearbox.svg" },
     { key: "ignition", file: "Ignition.svg" },
     { key: "repairs", file: "Repairs.svg" },
     { key: "rotor", file: "Rotor.svg" },
-    { key: "service", file: "Service.svg" },
+    { key: "electric", file: "Electric.svg" },
     { key: "steering_wheel", file: "Steering wheel.svg" },
+    { key: "service", file: "Service.svg" },
+
   ];
 
   return (

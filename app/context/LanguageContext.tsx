@@ -16,6 +16,7 @@ export interface Translations {
   contact: string;
   services: string;
   map: string;
+  location: string;
   ourLocation: string;
   close: string;
   reserveNow: string;
@@ -66,6 +67,7 @@ const getSafeTranslations = (data: Partial<Translations>): Translations => ({
   contact: data.contact ?? "Contact Us",
   services: data.services ?? "Our Services",
   map: data.map ?? "Find Us",
+  location: data.location ?? "Location",
   ourLocation: data.map ?? "Our location",
   close: data.close ?? "Close",
   reserveNow: data.reserveNow ?? "Reserve now",
@@ -129,20 +131,29 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     localStorage.setItem("language", language);
   }, [language]);
 
+
+
+
   const t = (key: string): string => {
-    const keys = key.split("."); // ✅ Splits `openGraph.image_alt` into `["openGraph", "image_alt"]`
+    const keys = key.split(".");
     let value: unknown = translations;
 
     for (const k of keys) {
       if (typeof value === "object" && value !== null && k in value) {
-        value = (value as Record<string, unknown>)[k]; // ✅ Navigate through nested object
+        value = (value as Record<string, unknown>)[k];
       } else {
-        return key; // ✅ Return key as fallback if not found
+        console.warn(`⚠ Missing translation key: "${key}"`);
+        return key; // ✅ Return the key instead of modifying the string
       }
     }
 
-    return typeof value === "string" ? value : key;
+    return typeof value === "string" ? value.trim() : key; // ✅ No dot modifications
   };
+
+
+
+
+
 
 
   return (

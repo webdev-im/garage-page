@@ -15,7 +15,7 @@ export default function Home() {
 
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isContactModalOpen, setContactModalOpen] = useState(false); // ✅ Added missing state
-
+  const [isServicesPage, setIsServicesPage] = useState(false); // State to toggle between layouts
   if (!isLoaded) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
@@ -34,9 +34,9 @@ export default function Home() {
             className="bg-gray-700 dark:bg-gray-100 p-6 rounded-lg w-[90%] lg:w-[50%] shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-2xl font-bold mb-4">{t("ourLocation")}</h2>
+            <h2 className="text-2xl font-bold mb-4">{t("location")}</h2>
             <p className="mb-4 text-gray-400 dark:text-gray-800">
-              Elnio g. 18, Šiauliai, 76281 Šiaulių m. sav.
+              Elnio g. 18, Šiauliai, 76281 Šiaulių m. sav
             </p>
             <div className="w-full h-64 bg-gray-200 rounded-md overflow-hidden">
               <iframe
@@ -54,10 +54,12 @@ export default function Home() {
 
       {/* Contact Modal */}
       {isContactModalOpen && (
+
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
           onClick={() => setContactModalOpen(false)}
         >
+
           <div
             className="bg-gray-700 dark:bg-gray-100 p-6 rounded-lg w-[90%] lg:w-[40%] shadow-lg"
             onClick={(e) => e.stopPropagation()}
@@ -73,7 +75,7 @@ export default function Home() {
               <strong>{t("workingHours")}: </strong> {t("monFri")}: 08:00 - 18:00
             </p>
             <p className="text-gray-400 dark:text-gray-800">
-              <strong>{t("address")}: </strong> Elnio g. 18, Šiauliai, 76281 Šiaulių m. sav.
+              <strong>{t("address")}: </strong> Elnio g. 18, Šiauliai, 76281 Šiaulių m. sav
             </p>
             <StyledButton text={t("close" as keyof Translations)} onClick={() => setContactModalOpen(false)} />
           </div>
@@ -81,17 +83,22 @@ export default function Home() {
       )}
 
       {/* Main Content with Animated Pulsating Border */}
-      <div className="relative bg-white/20 dark:bg-white/30 backdrop-blur-lg rounded-2xl h-[90%] mx-auto w-[90%] lg:w-[95%] flex flex-col justify-between items-center border-4 border-transparent animate-pulse-border">
+      <div className="relative bg-white/20 dark:bg-white/30 backdrop-blur-lg rounded-2xl h-[95%] lg:h-[90%]mx-auto w-[90%] lg:w-[95%] flex flex-col justify-between items-center border-4 border-transparent animate-pulse-border">
         {/* ✅ Fixed: Passing the correct modal state functions */}
-        <Header setLocationModalOpen={setLocationModalOpen} setContactModalOpen={setContactModalOpen} />
+        <Header
+          setLocationModalOpen={() => { }}
+          setContactModalOpen={() => { }}
+          onLogoClick={() => setIsServicesPage(false)} // Show default layout
+          onServicesClick={() => setIsServicesPage(true)} // Show services layout
+        />
 
         {/* Texts and Image */}
-        <div className="flex flex-row-reverse w-[90%] lg:w-[60%]">
-          <div className="text-center lg:text-left">
+        <div className="flex flex-col-reverse lg:flex-row-reverse w-[90%] lg:w-[60%] mt-[40] mb-[40]">
+          <div className="text-left mt-[20]">
             <p className="italic text-gray-400 dark:text-gray-600">{t("subheadline")}</p>
-            <h1 className="text-4xl md:text-5xl font-black my-4">{t("headline")}</h1>
+            <h1 className="text-4xl md:text-5xl font-black my-4 mb-6">{t("headline")}</h1>
             <p className="text-lg text-gray-300 dark:text-gray-700">{t("description")}</p>
-            <StyledButton text={t("reserveNow" as keyof Translations)} onClick={() => setLocationModalOpen(true)} />
+            <StyledButton text={t("reserveNow" as keyof Translations)} onClick={() => setContactModalOpen(true)} />
           </div>
 
           {/* Car Image - Fixed Aspect Ratio & Prevented Distortion */}
@@ -107,7 +114,7 @@ export default function Home() {
           </div>
         </div>
 
-        <footer className="bg-white/30 dark:bg-white/30 w-[100%] rounded-2xl">
+        <footer className="bg-white/30 dark:bg-white/30 w-[100%] rounded-2xl mt-[20]" >
           <IconCards />
         </footer>
       </div>
