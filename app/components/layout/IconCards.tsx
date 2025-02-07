@@ -16,7 +16,7 @@ export default function IconCards() {
     { key: "ignition", file: "Ignition.svg" },
     { key: "repairs", file: "Repairs.svg" },
     { key: "rotor", file: "Rotor.svg" },
-    // { key: "service", file: "Service.svg" },
+    { key: "service", file: "Service.svg" },
     { key: "steering_wheel", file: "Steering wheel.svg" },
   ];
 

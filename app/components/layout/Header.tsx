@@ -2,11 +2,12 @@
 
 import { IoMenu } from "react-icons/io5";
 import LanguageSwitcher from "../action/LanguageSwitcher";
+import Link from "next/link";
 import { ThemeToggler } from "../action/ThemeToggler";
 import { useLanguage } from "../../context/LanguageContext";
 import { useState } from "react";
 
-export const Header = () => {
+export const Header = ({ setModalOpen }: { setModalOpen: (open: boolean) => void }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
   const { t } = useLanguage();
@@ -22,7 +23,7 @@ export const Header = () => {
       <nav className="hidden lg:flex justify-center">
         <NavLink label={t("contact")} href="#" />
         <NavLink label={t("services")} href="#" />
-        <NavLink label={t("map")} href="#" />
+        <NavLink label={t("map")} href="#" onClick={() => setModalOpen(true)} />
       </nav>
 
       {/* Theme & Language Switchers (Right) */}
@@ -44,13 +45,20 @@ const Logo = () => (
   </div>
 );
 
-const NavLink = ({ label, href }: { label: string; href: string }) => (
-  <a
+interface NavLinkProps {
+  label: string;
+  href: string;
+  onClick?: () => void; // ✅ Allow onClick optionally
+}
+
+const NavLink = ({ label, href, onClick }: NavLinkProps) => (
+  <Link
     href={href}
     className="text-black dark:text-white hover:underline transition-colors px-4"
+    onClick={onClick}
   >
     {label}
-  </a>
+  </Link>
 );
 
 const MobileMenuIcon = ({ toggleDrawer }: { toggleDrawer: () => void }) => (

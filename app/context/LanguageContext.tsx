@@ -16,6 +16,9 @@ export interface Translations {
   contact: string;
   services: string;
   map: string;
+  ourLocation: string;
+  close: string;
+  reserveNow: string;
   keywords: {
     car_repair: string;
     auto_care: string;
@@ -58,6 +61,9 @@ const getSafeTranslations = (data: Partial<Translations>): Translations => ({
   contact: data.contact ?? "Contact Us",
   services: data.services ?? "Our Services",
   map: data.map ?? "Find Us",
+  ourLocation: data.map ?? "Our location",
+  close: data.close ?? "Close",
+  reserveNow: data.reserveNow ?? "Reserve now",
   keywords: {
     car_repair: data.keywords?.car_repair ?? "Car Repair",
     auto_care: data.keywords?.auto_care ?? "Auto Care",
@@ -88,11 +94,11 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     return "en";
   });
 
-  const [translations, setTranslations] = useState<Translations>(() => 
+  const [translations, setTranslations] = useState<Translations>(() =>
     getSafeTranslations(typeof window !== "undefined" && localStorage.getItem("language") === "lt" ? lt : en)
   );
-  
-  
+
+
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -116,7 +122,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   const t = (key: string): string => {
     const keys = key.split("."); // ✅ Splits `openGraph.image_alt` into `["openGraph", "image_alt"]`
     let value: unknown = translations;
-  
+
     for (const k of keys) {
       if (typeof value === "object" && value !== null && k in value) {
         value = (value as Record<string, unknown>)[k]; // ✅ Navigate through nested object
@@ -124,11 +130,11 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
         return key; // ✅ Return key as fallback if not found
       }
     }
-  
+
     return typeof value === "string" ? value : key;
   };
-  
-  
+
+
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t, isLoaded }}>
       {children}

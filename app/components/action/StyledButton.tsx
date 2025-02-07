@@ -1,4 +1,5 @@
 import React from "react";
+import { useLanguage } from "../../context/LanguageContext";
 
 interface StyledButtonProps {
     text: string;
@@ -6,6 +7,8 @@ interface StyledButtonProps {
 }
 
 const StyledButton: React.FC<StyledButtonProps> = ({ text, onClick }) => {
+
+    const { t, } = useLanguage();
     return (
         <button
             onClick={onClick}

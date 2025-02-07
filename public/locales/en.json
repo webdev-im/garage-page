@@ -7,6 +7,9 @@
   "contact": "Contact",
   "services": "Our Services",
   "map": "Map",
+  "ourLocation": "Our location",
+  "close": "Close",
+  "reserveNow": "ReserveNow",
   "keywords": {
     "car_repair": "car repair",
     "auto_care": "auto care",
