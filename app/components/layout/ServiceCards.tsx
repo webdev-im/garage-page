@@ -3,9 +3,11 @@
 import { ServiceCard } from "./ServiceCard"; // Reference to your ServiceCard component
 import { Translations } from "../../context/LanguageContext";
 import { useLanguage } from "../../context/LanguageContext";
+import { useState } from "react";
 
 export default function ServiceCards() {
     const { t } = useLanguage(); // Access translations
+    const [activeCard, setActiveCard] = useState<string | null>(null);
 
     const icons = [
         { key: "battery", file: "Battery.svg" },
@@ -23,10 +25,12 @@ export default function ServiceCards() {
     ];
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 max-w-screen-xl mx-auto">
-            {icons.map((icon, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 sm:p-6" >
+            {icons.map((icon) => (
                 <ServiceCard
-                    key={index}
+                    activeCard={activeCard}
+                    setActiveCard={setActiveCard}
+                    key={icon.key}
                     service={{
                         name: t(`icons.${icon.key}.name` as keyof Translations), // Get translation for name
                         icon: icon.file,
