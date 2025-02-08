@@ -15,16 +15,24 @@ export default function Home() {
   const { theme } = useTheme();
 
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
-  const [isContactModalOpen, setContactModalOpen] = useState(false); // ✅ Added missing state
-  const [isServicesPage, setIsServicesPage] = useState(false); // State to toggle between layouts
+  const [isContactModalOpen, setContactModalOpen] = useState(false);
+  const [isServicesPage, setIsServicesPage] = useState(false);
+
   if (!isLoaded) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   }
 
   const carImage = theme === "dark" ? "/blackCar.png" : "/yellowCar.png";
 
   return (
-    <section className="h-screen bg-gray-800 dark:bg-yellow-400 text-gray-100 dark:text-gray-900 flex flex-col justify-center items-center">
+    <section className="min-h-screen bg-gray-800 dark:bg-yellow-400 text-gray-100 dark:text-gray-900 flex flex-col p-5">
+      {/* Header */}
+      <Header
+        setLocationModalOpen={setLocationModalOpen}
+        setContactModalOpen={setContactModalOpen}
+        onLogoClick={() => setIsServicesPage(false)}
+        onServicesClick={() => setIsServicesPage(true)}
+      />
       {/* Location Modal */}
       {isLocationModalOpen && (
         <div
@@ -48,19 +56,20 @@ export default function Home() {
                 loading="lazy"
               ></iframe>
             </div>
-            <StyledButton text={t("close" as keyof Translations)} onClick={() => setLocationModalOpen(false)} />
+            <StyledButton
+              text={t("close" as keyof Translations)}
+              onClick={() => setLocationModalOpen(false)}
+            />
           </div>
         </div>
       )}
 
       {/* Contact Modal */}
       {isContactModalOpen && (
-
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
           onClick={() => setContactModalOpen(false)}
         >
-
           <div
             className="bg-gray-700 dark:bg-gray-100 p-6 rounded-lg w-[90%] lg:w-[40%] shadow-lg"
             onClick={(e) => e.stopPropagation()}
@@ -78,49 +87,41 @@ export default function Home() {
             <p className="text-gray-400 dark:text-gray-800">
               <strong>{t("address")}: </strong> Elnio g. 18, Šiauliai, 76281 Šiaulių m. sav
             </p>
-            <StyledButton text={t("close" as keyof Translations)} onClick={() => setContactModalOpen(false)} />
+            <StyledButton
+              text={t("close" as keyof Translations)}
+              onClick={() => setContactModalOpen(false)}
+            />
           </div>
         </div>
       )}
 
-      {/* Main Content with Animated Pulsating Border */}
-      <div className="relative bg-white/20 dark:bg-white/30 backdrop-blur-lg rounded-2xl h-[95%] lg:h-[90%]mx-auto w-[90%] lg:w-[95%] flex flex-col justify-between items-center border-4 border-transparent animate-pulse-border">
-        {/* ✅ Fixed: Passing the correct modal state functions */}
-        <Header
-          setLocationModalOpen={setLocationModalOpen}
-          setContactModalOpen={setContactModalOpen}
-          onLogoClick={() => setIsServicesPage(false)} // Show default layout
-          onServicesClick={() => setIsServicesPage(true)} // Show services layout
-        />
-        {/* Services page */}
-        {isServicesPage ? <div className="text-center">
-          <div className="text-center my-8">
-            {/* Title */}
-            <h1 className="text-4xl md:text-6xl font-extrabold text-gray-100 dark:text-gray-800">
-              {t("servicesPageTitle")}
-            </h1>
-            {/* Subtitle */}
-            <p className="mt-4 text-lg md:text-xl text-gray-300 dark:text-gray-600 max-w-2xl mx-auto">
-              {t("servicesPageSubtitle")}
-            </p>
-            {/* Slogan */}
-            <p className="mt-2 italic text-sm md:text-lg text-gray-400 dark:text-gray-500">
-              {t("servicesPageSlogan")}
-            </p>
-          </div>
-          <ServiceCards />
-        </div> : <>
-
-          {/* Texts and Image */}
-          <div className="flex flex-col-reverse lg:flex-row-reverse w-[90%] lg:w-[60%] mt-[40] mb-[40]">
-            <div className="text-left mt-[20]">
-              <p className="italic text-gray-400 dark:text-gray-600">{t("subheadline")}</p>
-              <h1 className="text-4xl md:text-5xl font-black my-4 mb-6">{t("headline")}</h1>
-              <p className="text-lg text-gray-300 dark:text-gray-700">{t("description")}</p>
-              <StyledButton text={t("reserveNow" as keyof Translations)} onClick={() => setContactModalOpen(true)} />
+      <main className="flex-grow flex flex-col justify-center items-center px-4 lg:px-16 py-8">
+        {isServicesPage ? (
+          <div className="text-center w-full">
+            <div className="text-center my-8">
+              <h1 className="text-4xl md:text-6xl font-extrabold text-gray-100 dark:text-gray-800">
+                {t("servicesPageTitle")}
+              </h1>
+              <p className="mt-4 text-lg md:text-xl text-gray-300 dark:text-gray-600 max-w-2xl mx-auto">
+                {t("servicesPageSubtitle")}
+              </p>
+              <p className="mt-2 italic text-sm md:text-lg text-gray-400 dark:text-gray-500">
+                {t("servicesPageSlogan")}
+              </p>
             </div>
-
-            {/* Car Image - Fixed Aspect Ratio & Prevented Distortion */}
+            <ServiceCards />
+          </div>
+        ) : (
+          <div className="flex flex-col-reverse lg:flex-row-reverse w-full max-w-5xl mt-10 gap-8">
+            <div className="text-left">
+              <p className="italic text-gray-400 dark:text-gray-600">{t("subheadline")}</p>
+              <h1 className="text-4xl md:text-5xl font-black my-4">{t("headline")}</h1>
+              <p className="text-lg text-gray-300 dark:text-gray-700">{t("description")}</p>
+              <StyledButton
+                text={t("reserveNow" as keyof Translations)}
+                onClick={() => setContactModalOpen(true)}
+              />
+            </div>
             <div className="flex justify-center w-full lg:ml-[100]">
               <Image
                 src={carImage}
@@ -131,34 +132,15 @@ export default function Home() {
                 priority
               />
             </div>
-          </div></>}
-
-
-        {!isServicesPage && <footer className="bg-white/30 dark:bg-white/30 w-[100%] rounded-2xl mt-[20]" >
+          </div>
+        )}
+      </main>
+      {/* Footer */}
+      {!isServicesPage && (
+        <footer className="bg-white/30 dark:bg-white/30 w-full py-4 mt-10">
           <IconCards />
-        </footer>}
-        {isServicesPage && <div className="h-10"></div>}
-
-      </div>
-
-      {/* Tailwind Keyframes */}
-      <style jsx global>{`
-        @keyframes pulse-border {
-          0% {
-            box-shadow: 0 0 10px rgba(255, 255, 0, 0.3);
-          }
-          50% {
-            box-shadow: 0 0 20px rgba(255, 255, 0, 0.7);
-          }
-          100% {
-            box-shadow: 0 0 10px rgba(255, 255, 0, 0.3);
-          }
-        }
-
-        .animate-pulse-border {
-          animation: pulse-border 2s infinite ease-in-out;
-        }
-      `}</style>
+        </footer>
+      )}
     </section>
   );
 }
