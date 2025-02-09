@@ -49,27 +49,6 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     title: translations.title,
     description: translations.description,
     keywords: Object.values(translations.keywords),
-    openGraph: {
-      title: translations.title,
-      description: translations.openGraph.description,
-      url: `https://yourwebsite.com/${language}`,
-      type: "website",
-      images: [
-        {
-          url: "/car.png",
-          width: 1200,
-          height: 630,
-          alt: translations.openGraph.image_alt,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      site: "@yourtwitterhandle",
-      title: translations.title,
-      description: translations.twitter.description,
-      images: ["/car.png"],
-    },
   };
 }
 

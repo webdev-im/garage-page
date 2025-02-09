@@ -19,6 +19,10 @@ export default {
       fontFamily: {
         sans: ["GT Walsheim Pro", "sans-serif"], // Default fallback
       },
+      backgroundImage: {
+        yellowGradient: "linear-gradient(-45deg,#FF9D00, #ffd700)", // Adjusted angle (135°)
+        darkGradient: "linear-gradient(-45deg, #1a1a1a, #333333)", // Adjusted angle (135°)
+      },
     },
   },
   plugins: [],

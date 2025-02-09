@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
+import Image from "next/image";
+
 export function IconCard({
   icon,
 }: {
   icon: { name: string; file: string; description: string };
 }) {
   const [isMobile, setIsMobile] = useState(false);
-  const [hovered, setHovered] = useState(false);
 
   // Detect screen size on mount
   useEffect(() => {
@@ -26,13 +27,17 @@ export function IconCard({
     // Mobile Version
     <div className="flex flex-col items-center justify-center bg-gray-900 dark:bg-gray-100 text-white dark:text-black p-4 rounded-lg shadow-md w-full sm:w-1/2 gap-2">
       {/* Icon */}
-      <img
+      <Image
         src={`/icons/${icon.file}`}
         alt={icon.name}
+        width={48}
+        height={48}
         className="h-12 w-12 object-contain"
         style={{
           filter: "invert(0.7) brightness(0.9) grayscale(1)",
         }}
+        priority
+        unoptimized
       />
 
       {/* Name */}
@@ -45,18 +50,16 @@ export function IconCard({
         {icon.description}
       </p>
     </div>
-
-
   ) : (
     // Desktop Version
     <div
       className="group relative w-20 h-20 sm:w-20 sm:h-20 lg:w-16 lg:h-16 flex flex-col items-center justify-center transition-all duration-300 transform hover:scale-110"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
-      <img
+      <Image
         src={`/icons/${icon.file}`}
         alt={icon.name}
+        width={48}
+        height={48}
         className="h-15 w-15 sm:h-12 sm:w-12 lg:h-8 lg:w-8 transition-transform duration-300"
       />
       <div className="absolute -bottom-15 text-center bg-black text-white dark:bg-white dark:text-black px-3 py-1 rounded-md text-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100">

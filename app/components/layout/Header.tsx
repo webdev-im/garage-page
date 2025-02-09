@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { IoMenu } from "react-icons/io5";
 import LanguageSwitcher from "../action/LanguageSwitcher";
 import Link from "next/link";
@@ -25,14 +26,24 @@ export const Header = ({
   return (
     <header className="mx-auto w-[100%] lg:w-[60%] bg-white dark:bg-gray-900 shadow-md rounded-xl flex items-center justify-between px-6 py-2 lg:py-4 z-50 flex-row-reverse">
       {/* Logo (Left) */}
+
+
       <div className="flex items-center flex-none">
-        <h1
-          className="text-lg font-bold text-black dark:text-white cursor-pointer"
-          onClick={onLogoClick} // Call onLogoClick when clicked
-        >
-          G - SERVICE
-        </h1>
+        <div className="flex items-center cursor-pointer flex-row-reverse" onClick={onLogoClick}>
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={30} // Adjust to your desired width
+            height={30} // Adjust to your desired height
+            priority // Ensures the logo loads quickly
+          />
+          <span className="text-lg font-bold text-black dark:text-white ml-2">
+            SERVICE
+          </span>
+        </div>
       </div>
+
+
 
       {/* Navigation Links (Middle) */}
       <nav className="hidden lg:flex justify-center flex-row-reverse">

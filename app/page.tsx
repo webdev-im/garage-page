@@ -25,14 +25,9 @@ export default function Home() {
   const carImage = theme === "dark" ? "/blackCar.png" : "/yellowCar.png";
 
   return (
-    <section className="min-h-screen bg-gray-800 dark:bg-yellow-400 text-gray-100 dark:text-gray-900 flex flex-col p-5">
-      {/* Header */}
-      <Header
-        setLocationModalOpen={setLocationModalOpen}
-        setContactModalOpen={setContactModalOpen}
-        onLogoClick={() => setIsServicesPage(false)}
-        onServicesClick={() => setIsServicesPage(true)}
-      />
+    <section className="min-h-screen flex flex-col bg-darkGradient dark:bg-yellowGradient text-gray-100 dark:text-gray-900 p-5 lg:p-10">
+
+
       {/* Location Modal */}
       {isLocationModalOpen && (
         <div
@@ -65,26 +60,31 @@ export default function Home() {
       )}
 
       {/* Contact Modal */}
+
       {isContactModalOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
           onClick={() => setContactModalOpen(false)}
         >
           <div
-            className="bg-gray-700 dark:bg-gray-100 p-6 rounded-lg w-[90%] lg:w-[40%] shadow-lg"
+            className="bg-gray-700 dark:bg-gray-100 p-4 lg:p-6 rounded-lg w-[90%] lg:w-[40%] shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-2xl font-bold mb-4">{t("contactUs")}</h2>
-            <p className="text-gray-400 dark:text-gray-800 mb-2">
+            <p className="text-gray-300 dark:text-gray-800 mb-2">
               <strong>{t("phone")}: </strong>
-              <a href="tel:+37061234567" className="text-yellow-400 hover:underline">
+              <a
+                href="tel:+37061234567"
+                className="text-yellow-400 dark:text-yellow-500 hover:underline"
+              >
                 +370 612 34567
               </a>
             </p>
-            <p className="text-gray-400 dark:text-gray-800 mb-2">
-              <strong>{t("workingHours")}: </strong> {t("monFri")}: 08:00 - 18:00
+            <p className="text-gray-300 dark:text-gray-800 mb-2 text-sm lg:text-base">
+              <strong>{t("workingHours")}: </strong>
+              {t("monFri")}: 08:00 - 18:00
             </p>
-            <p className="text-gray-400 dark:text-gray-800">
+            <p className="text-gray-300 dark:text-gray-800 text-sm lg:text-base">
               <strong>{t("address")}: </strong> Elnio g. 18, Šiauliai, 76281 Šiaulių m. sav
             </p>
             <StyledButton
@@ -95,52 +95,63 @@ export default function Home() {
         </div>
       )}
 
-      <main className="flex-grow flex flex-col justify-center items-center px-4 lg:px-16 py-8">
-        {isServicesPage ? (
-          <div className="text-center w-full">
-            <div className="text-center my-8">
-              <h1 className="text-4xl md:text-6xl font-extrabold text-gray-100 dark:text-gray-800">
-                {t("servicesPageTitle")}
-              </h1>
-              <p className="mt-4 text-lg md:text-xl text-gray-300 dark:text-gray-600 max-w-2xl mx-auto">
-                {t("servicesPageSubtitle")}
-              </p>
-              <p className="mt-2 italic text-sm md:text-lg text-gray-400 dark:text-gray-500">
-                {t("servicesPageSlogan")}
-              </p>
+      <div className="min-h-full flex-grow w-full bg-white/10 dark:bg-white/30 rounded-xl flex flex-col">
+
+
+
+        {/* Header */}
+        <Header
+          setLocationModalOpen={setLocationModalOpen}
+          setContactModalOpen={setContactModalOpen}
+          onLogoClick={() => setIsServicesPage(false)}
+          onServicesClick={() => setIsServicesPage(true)}
+        />
+        <main className="flex-grow flex flex-col justify-center items-center px-4 lg:px-16 py-8">
+          {isServicesPage ? (
+            <div className="text-center w-full">
+              <div className="text-center my-8">
+                <h1 className="text-4xl md:text-6xl font-extrabold text-gray-100 dark:text-gray-800">
+                  {t("servicesPageTitle")}
+                </h1>
+                <p className="mt-4 text-lg md:text-xl text-gray-300 dark:text-gray-600 max-w-2xl mx-auto">
+                  {t("servicesPageSubtitle")}
+                </p>
+                <p className="mt-2 italic text-sm md:text-lg text-gray-400 dark:text-gray-500">
+                  {t("servicesPageSlogan")}
+                </p>
+              </div>
+              <ServiceCards />
             </div>
-            <ServiceCards />
-          </div>
-        ) : (
-          <div className="flex flex-col-reverse lg:flex-row-reverse w-full max-w-5xl mt-10 gap-8">
-            <div className="text-left">
-              <p className="italic text-gray-400 dark:text-gray-600">{t("subheadline")}</p>
-              <h1 className="text-4xl md:text-5xl font-black my-4">{t("headline")}</h1>
-              <p className="text-lg text-gray-300 dark:text-gray-700">{t("description")}</p>
-              <StyledButton
-                text={t("reserveNow" as keyof Translations)}
-                onClick={() => setContactModalOpen(true)}
-              />
+          ) : (
+            <div className="flex flex-col-reverse lg:flex-row-reverse w-full max-w-5xl mt-10 gap-8">
+              <div className="text-left">
+                <p className="italic text-gray-400 dark:text-gray-600">{t("subheadline")}</p>
+                <h1 className="text-4xl md:text-5xl font-black my-4">{t("headline")}</h1>
+                <p className="text-lg text-gray-300 dark:text-gray-700">{t("description")}</p>
+                <StyledButton
+                  text={t("reserveNow" as keyof Translations)}
+                  onClick={() => setContactModalOpen(true)}
+                />
+              </div>
+              <div className="flex justify-center w-full lg:ml-[100]">
+                <Image
+                  src={carImage}
+                  alt={t("openGraph.image_alt" as keyof Translations)}
+                  width={800}
+                  height={600}
+                  className="rounded-lg object-contain max-w-full h-auto"
+                  priority
+                />
+              </div>
             </div>
-            <div className="flex justify-center w-full lg:ml-[100]">
-              <Image
-                src={carImage}
-                alt={t("openGraph.image_alt" as keyof Translations)}
-                width={800}
-                height={600}
-                className="rounded-lg object-contain max-w-full h-auto"
-                priority
-              />
-            </div>
-          </div>
-        )}
-      </main>
-      {/* Footer */}
-      {!isServicesPage && (
-        <footer className="bg-white/30 dark:bg-white/30 w-full py-4 mt-10">
-          <IconCards />
-        </footer>
-      )}
+          )}
+        </main>
+        {/* Footer */}
+        {!isServicesPage && (
+          <footer className="bg-white/20 dark:bg-white/40 w-full py-1 mt-10 rounded-xl">
+            <IconCards />
+          </footer>
+        )}</div>
     </section>
   );
 }

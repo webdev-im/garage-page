@@ -129,7 +129,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
       }
       setIsLoaded(true);
     }
-  }, []);
+  }, [language]);
 
   // ✅ Update translations when language changes
   useEffect(() => {
