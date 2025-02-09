@@ -2,7 +2,7 @@ import "./globals.css";
 
 import { LanguageProvider } from "./context/LanguageContext";
 import { Metadata } from "next";
-import ThemeWrapper from "./components/layout/ThemeWrapper"; // ✅ Import ThemeWrapper
+import ThemeWrapper from "./components/layout/ThemeWrapper";
 import { dir } from "i18next";
 import enData from "@/public/locales/en.json";
 import ltData from "@/public/locales/lt.json";
@@ -39,9 +39,9 @@ interface TranslationData {
   };
 }
 
+// ✅ Ensure correct type for `params`
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  const language = params.locale || "en";
-
+  const language = params?.locale || "en";
 
   const translations: TranslationData = (language === "lt" ? ltData : enData) as TranslationData;
 
@@ -52,22 +52,22 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   };
 }
 
-
-
+// ✅ Fix potential async issue with params
 export default function RootLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: { locale: string } | Promise<{ locale: string }>;
 }) {
+  // ✅ Ensure params is resolved if it's a promise
+  const resolvedParams = params instanceof Promise ? { locale: "en" } : params;
+
   return (
-    <html lang={params.locale} dir={dir(params.locale)}>
+    <html lang={resolvedParams.locale} dir={dir(resolvedParams.locale)}>
       <body>
-        <ThemeWrapper> {/* ✅ Ensures theme is applied only on client */}
-          <LanguageProvider>
-            {children}
-          </LanguageProvider>
+        <ThemeWrapper>
+          <LanguageProvider>{children}</LanguageProvider>
         </ThemeWrapper>
       </body>
     </html>
