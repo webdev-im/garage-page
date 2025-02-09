@@ -1,11 +1,13 @@
 import "./globals.css";
 
 import { LanguageProvider } from "./context/LanguageContext";
+import { ReactNode } from "react";
 import ThemeWrapper from "./components/layout/ThemeWrapper";
 import { dir } from "i18next";
 import enData from "@/public/locales/en.json";
 import ltData from "@/public/locales/lt.json";
 
+// ✅ Define a strict type for translations
 interface TranslationData {
   title: string;
   description: string;
@@ -18,10 +20,17 @@ interface TranslationData {
   };
 }
 
-// ✅ Ensure correct typing of `generateMetadata`
+interface LayoutProps {
+  children: ReactNode;
+  params: { locale: string }; // ✅ Ensure `params` is always an object
+}
+
+// ✅ Fix: Ensure `translations` has the correct type
 export async function generateMetadata({ params }: { params: { locale: string } }) {
-  const language = params?.locale || "en"; // Fallback to "en"
-  const translations: TranslationData = (language === "lt" ? ltData : enData) as TranslationData;
+  const language = params.locale || "en"; // Default to "en"
+
+  const translations: TranslationData =
+    language === "lt" ? (ltData as TranslationData) : (enData as TranslationData);
 
   return {
     title: translations.title,
@@ -30,18 +39,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   };
 }
 
-// ✅ Fix `params` issue
-export default function RootLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params?: { locale: string }; // Make `params` optional
-}) {
-  const locale = params?.locale || "en"; // Default to "en" if `params` is undefined
-
+export default function RootLayout({ children, params }: LayoutProps) {
   return (
-    <html lang={locale} dir={dir(locale)}>
+    <html lang={params.locale} dir={dir(params.locale)}>
       <body>
         <ThemeWrapper>
           <LanguageProvider>{children}</LanguageProvider>
@@ -50,3 +50,4 @@ export default function RootLayout({
     </html>
   );
 }
+
