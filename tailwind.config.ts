@@ -23,6 +23,20 @@ export default {
         yellowGradient: "linear-gradient(-45deg,#FF9D00, #ffd700)", // Adjusted angle (135°)
         darkGradient: "linear-gradient(-45deg, #1a1a1a, #333333)", // Adjusted angle (135°)
       },
+      keyframes: {
+        pulseGlow: {
+          "0%, 100%": { boxShadow: "0 0 10px rgba(255, 223, 0, 0.6)" },
+          "50%": { boxShadow: "0 0 20px rgba(255, 223, 0, 1)" },
+        },
+        darkPulseGlow: {
+          "0%, 100%": { boxShadow: "0 0 10px rgba(0, 0, 0, 0.6)" },
+          "50%": { boxShadow: "0 0 20px rgba(0, 0, 0, 1)" },
+        },
+      },
+      animation: {
+        pulseGlow: "pulseGlow 5s ease-in-out infinite",
+        darkPulseGlow: "darkPulseGlow 5s ease-in-out infinite",
+      },
     },
   },
   plugins: [],
