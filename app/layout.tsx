@@ -1,22 +1,14 @@
 import "./globals.css";
 
 import { LanguageProvider } from "./context/LanguageContext";
-import { Metadata } from "next";
 import ThemeWrapper from "./components/layout/ThemeWrapper";
 import { dir } from "i18next";
 import enData from "@/public/locales/en.json";
 import ltData from "@/public/locales/lt.json";
 
-// ✅ Define a strict type for translations
 interface TranslationData {
   title: string;
-  headline: string;
-  subheadline: string;
   description: string;
-  cta: string;
-  contact: string;
-  services: string;
-  map: string;
   keywords: {
     car_repair: string;
     auto_care: string;
@@ -24,25 +16,11 @@ interface TranslationData {
     mechanic: string;
     car_maintenance: string;
   };
-  openGraph: {
-    description: string;
-    image_alt: string;
-  };
-  twitter: {
-    description: string;
-  };
-  icons: {
-    [key: string]: {
-      name: string;
-      description: string;
-    };
-  };
 }
 
-// ✅ Ensure correct type for `params`
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  const language = params?.locale || "en";
-
+// ✅ Ensure correct typing of `generateMetadata`
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const language = params?.locale || "en"; // Fallback to "en"
   const translations: TranslationData = (language === "lt" ? ltData : enData) as TranslationData;
 
   return {
@@ -52,19 +30,18 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   };
 }
 
-// ✅ Fix potential async issue with params
+// ✅ Fix `params` issue
 export default function RootLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string } | Promise<{ locale: string }>;
+  params?: { locale: string }; // Make `params` optional
 }) {
-  // ✅ Ensure params is resolved if it's a promise
-  const resolvedParams = params instanceof Promise ? { locale: "en" } : params;
+  const locale = params?.locale || "en"; // Default to "en" if `params` is undefined
 
   return (
-    <html lang={resolvedParams.locale} dir={dir(resolvedParams.locale)}>
+    <html lang={locale} dir={dir(locale)}>
       <body>
         <ThemeWrapper>
           <LanguageProvider>{children}</LanguageProvider>
