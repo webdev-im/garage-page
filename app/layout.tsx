@@ -17,11 +17,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 }
 
+export const dynamic = "force-dynamic"; // ✅ Forces metadata to update on every request
+export const revalidate = 0; // ✅ Disables caching
 
-// ✅ `generateMetadata` now awaits `cookies()` properly
+
 export async function generateMetadata(): Promise<Metadata> {
-  const cookiesList = await cookies(); // ✅ Await the promise
-  const locale = cookiesList.get("NEXT_LOCALE")?.value || "en"; // ✅ Get locale safely
+  "use server"; // ✅ Ensure this runs on the server
+
+  const cookieStore = await cookies(); // ✅ Await the cookies
+  const locale = cookieStore.get("NEXT_LOCALE")?.value || "en"; // ✅ Get locale safely
+
+  console.log("📌 Metadata Locale:", locale); // Debugging - Check in server logs
 
   const translations =
     locale === "lt"
@@ -34,3 +40,4 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: Object.values(translations.keywords),
   };
 }
+

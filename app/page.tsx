@@ -14,8 +14,6 @@ export default function Home() {
   const { t, isLoaded } = useLanguage();
   const { theme } = useTheme();
 
-  const [isLocationModalOpen, setLocationModalOpen] = useState(false);
-  const [isContactModalOpen, setContactModalOpen] = useState(false);
   const [isServicesPage, setIsServicesPage] = useState(false);
   const [activeModal, setActiveModal] = useState<"location" | "contact" | null>(null);
 
@@ -26,7 +24,7 @@ export default function Home() {
   const carImage = theme === "dark" ? "/blackCar.png" : "/yellowCar.png";
 
   return (
-    <section className="min-h-screen flex flex-col bg-darkGradient dark:bg-yellowGradient text-gray-100 dark:text-gray-900 p-5 lg:p-10">
+    <section className="min-h-screen flex flex-col bg-darkGradient dark:bg-yellowGradient text-gray-100 dark:text-gray-900 p-5 lg:p-9">
 
       {/* Location Modal */}
       {activeModal === "location" && (

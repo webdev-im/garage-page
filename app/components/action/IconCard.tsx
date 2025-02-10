@@ -58,13 +58,15 @@ export function IconCard({
       <Image
         src={`/icons/${icon.file}`}
         alt={icon.name}
-        width={48}
-        height={48}
-        className="h-15 w-15 sm:h-12 sm:w-12 lg:h-8 lg:w-8 transition-transform duration-300"
+        width={32} // Slightly larger than before
+        height={32}
+        className="h-14 w-14 sm:h-12 sm:w-12 lg:h-7 lg:w-7 transition-transform duration-300"
       />
       <div className="absolute -bottom-15 text-center bg-black text-white dark:bg-white dark:text-black px-3 py-1 rounded-md text-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         {icon.description}
       </div>
     </div>
+
+
   );
 }

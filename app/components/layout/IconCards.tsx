@@ -22,7 +22,7 @@ export default function IconCards() {
   ];
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:flex lg:flex-wrap lg:justify-center gap-6 p-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:flex lg:flex-wrap lg:justify-center gap-6 lg:gap-5 p-6 lg:p-4">
       {icons.map((icon, index) => (
         <IconCard
           key={index}

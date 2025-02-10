@@ -124,26 +124,36 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
 
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // ✅ Load stored language once when component mounts
+
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedLang = localStorage.getItem("language") as Language;
-      if (storedLang && storedLang !== language) {
-        setLanguage(storedLang);
-      }
+    if (typeof window === "undefined") return; // ✅ Prevent running on server (SSR)
+
+    const storedLang = localStorage.getItem("language") as Language;
+
+    // ✅ Prevent setting state if it’s already correct
+    if (storedLang && storedLang !== language && !isLoaded) {
+      setLanguage(storedLang);
+    } else if (!isLoaded) {
       setIsLoaded(true);
     }
-  }, []); // ✅ Runs only on mount
+  }, [language, isLoaded]); // ✅ Prevents infinite loop, satisfies Next.js rules
 
-  // ✅ Update translations when language changes
+
+
+
+
   useEffect(() => {
-    if (isLoaded) {
-      setTranslations(getSafeTranslations(language === "lt" ? lt : en));
-      localStorage.setItem("language", language);
-    }
-  }, [language, isLoaded]); // ✅ Prevents updates before load
+    if (!isLoaded) return; // ✅ Prevent updating before initialization
 
-  // ✅ Translation function (no infinite loops)
+    setTranslations(getSafeTranslations(language === "lt" ? lt : en));
+    localStorage.setItem("language", language);
+  }, [language, isLoaded]); // ✅ Ensures it only runs when language changes, avoiding early updates
+
+
+
+
+
   const t = (key: string): string => {
     const keys = key.split(".");
     let value: unknown = translations;

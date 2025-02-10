@@ -24,7 +24,7 @@ export const Header = ({
   const { t } = useLanguage();
 
   return (
-    <header className="mx-auto w-[100%] lg:w-[60%] bg-white dark:bg-gray-900 shadow-md rounded-xl flex items-center justify-between px-6 py-2 lg:py-4 z-50">
+    <header className="mx-auto w-[100%] lg:w-[60%] bg-white dark:bg-gray-900 shadow-md rounded-xl flex items-center justify-between px-6 py-2 lg:py-3 z-50">
       {/* Logo (Left) */}
 
 
