@@ -39,10 +39,12 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   };
 }
 
-export default function RootLayout({ children, params }: LayoutProps) {
-  const locale = params?.locale ?? "en"; // Ensure locale is always valid
+
+export default async function RootLayout({ children, params }: LayoutProps) {
+  const resolvedParams = await params; // ✅ Await the Promise
+
   return (
-    <html lang={locale} dir={dir(params.locale)}>
+    <html lang={resolvedParams.locale} dir={dir(resolvedParams.locale)}>
       <body>
         <ThemeWrapper>
           <LanguageProvider>{children}</LanguageProvider>
@@ -51,4 +53,5 @@ export default function RootLayout({ children, params }: LayoutProps) {
     </html>
   );
 }
+
 
