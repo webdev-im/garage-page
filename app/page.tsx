@@ -95,8 +95,8 @@ export default function Home() {
         </div>
       )}
       <div className="min-h-full flex-grow w-full bg-white/10 dark:bg-white/30 rounded-xl flex flex-col border-2 border-transparent items-center
-                shadow-[0_0_10px_rgba(255,223,0,0.6)] dark:shadow-[0_0_10px_rgba(0,0,0,0.6)]
-                animate-[pulseGlow_1.5s_ease-in-out_infinite]">
+                animate-[pulseGlow_1.5s_ease-in-out_infinite] dark:animate-[darkPulseGlow_1.5s_ease-in-out_infinite]">
+
 
 
 

@@ -6,7 +6,7 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: "class", // ✅ Fix: properly placed darkMode
+  darkMode: "class", // ✅ Properly set dark mode
   theme: {
     extend: {
       colors: {
@@ -17,11 +17,11 @@ export default {
         accentYellow: "#ffd700",
       },
       fontFamily: {
-        sans: ["GT Walsheim Pro", "sans-serif"], // Default fallback
+        sans: ["GT Walsheim Pro", "sans-serif"],
       },
       backgroundImage: {
-        yellowGradient: "linear-gradient(-45deg,#FF9D00, #ffd700)", // Adjusted angle (135°)
-        darkGradient: "linear-gradient(-45deg, #1a1a1a, #333333)", // Adjusted angle (135°)
+        yellowGradient: "linear-gradient(-45deg, #FF9D00, #ffd700)",
+        darkGradient: "linear-gradient(-45deg, #1a1a1a, #333333)",
       },
       keyframes: {
         pulseGlow: {
@@ -29,8 +29,8 @@ export default {
           "50%": { boxShadow: "0 0 20px rgba(255, 223, 0, 1)" },
         },
         darkPulseGlow: {
-          "0%, 100%": { boxShadow: "0 0 10px rgba(0, 0, 0, 0.6)" },
-          "50%": { boxShadow: "0 0 20px rgba(0, 0, 0, 1)" },
+          "0%, 100%": { boxShadow: "0 0 10px rgba(133, 83, 0, 0.1)" },
+          "50%": { boxShadow: "0 0 20px rgb(154, 113, 0)" },
         },
       },
       animation: {
