@@ -63,7 +63,7 @@
       "description": "Pavarų dėžės patikra ir remontas"
     },
     "ignition": {
-      "name": "Uždegimas",
+      "name": "Variklio degimas",
       "description": "Uždegimo sistemos diagnostika"
     },
     "repairs": {

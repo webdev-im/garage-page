@@ -139,7 +139,7 @@ const MobileDrawer = ({
       {/* Drawer */}
       <div className="fixed right-0 top-0 h-full w-64 z-50 bg-white dark:bg-gray-900 shadow-lg transform transition-transform duration-300 flex flex-col">
         {/* Header Section (Close Button + Togglers) */}
-        <div className="flex  items-center justify-between px-3 py-4 border-b border-gray-300 dark:border-gray-700">
+        <div className="flex flex-row items-center justify-between px-3 py-4 border-b border-gray-300 dark:border-gray-700">
           {/* Theme & Language Switchers (Left Side) */}
           <div className="flex space-x-3">
             <ThemeToggler />

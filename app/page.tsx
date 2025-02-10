@@ -94,7 +94,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      <div className="min-h-full flex-grow w-full bg-white/10 dark:bg-white/30 rounded-xl flex flex-col border-2 border-transparent 
+      <div className="min-h-full flex-grow w-full bg-white/10 dark:bg-white/30 rounded-xl flex flex-col border-2 border-transparent items-center
                 shadow-[0_0_10px_rgba(255,223,0,0.6)] dark:shadow-[0_0_10px_rgba(0,0,0,0.6)]
                 animate-[pulseGlow_1.5s_ease-in-out_infinite]">
 
@@ -109,9 +109,9 @@ export default function Home() {
           onLogoClick={() => setIsServicesPage(false)}
           onServicesClick={() => setIsServicesPage(true)}
         />
-        <main className="flex-grow flex flex-col justify-center items-center px-4 lg:px-16 py-8">
+        <main className="flex-grow flex flex-col justify-center items-center w-[100%] lg:w-[60%] py-8 px-4 lg:px-0" >
           {isServicesPage ? (
-            <div className="text-center w-full">
+            <div className="text-center w-full lg:my-20 mt-5" >
               <div className="text-center my-8">
                 <h1 className="text-4xl md:text-6xl font-extrabold text-gray-100 dark:text-gray-800">
                   {t("servicesPageTitle")}
@@ -126,32 +126,33 @@ export default function Home() {
               <ServiceCards />
             </div>
           ) : (
-            <div className="flex flex-col-reverse w-full lg:flex-row max-w-5xl mt-10 gap-8">
-              <div className="text-left">
+            <div className="flex flex-col-reverse lg:flex-row w-full max-w-5xl gap-8 mt-5">
+              <div className="text-left lg:w-1/2 " >
                 <p className="italic text-gray-400 dark:text-gray-600">{t("subheadline")}</p>
                 <h1 className="text-4xl md:text-5xl font-black my-4">{t("headline")}</h1>
-                <p className="text-lg text-gray-300 dark:text-gray-700">{t("description")}</p>
+                <p className="text-lg text-gray-300 dark:text-gray-700 lg:mb-6">{t("description")}</p>
                 <StyledButton
                   text={t("reserveNow" as keyof Translations)}
                   onClick={() => setContactModalOpen(true)}
                 />
               </div>
-              <div className="flex justify-center w-full lg:ml-[100]">
+              <div className="flex justify-center w-full  lg:w-1/2 ">
                 <Image
                   src={carImage}
                   alt={t("openGraph.image_alt" as keyof Translations)}
-                  width={800}
-                  height={600}
-                  className="rounded-lg object-contain max-w-full h-auto"
+                  width={1000} // ⬆ Increased from 800
+                  height={750} // ⬆ Increased from 600
+                  className="rounded-lg object-contain w-full lg:w-[120%] h-auto"
                   priority
                 />
               </div>
+
             </div>
           )}
         </main>
         {/* Footer */}
         {!isServicesPage && (
-          <footer className="bg-white/20 dark:bg-white/40 w-full py-0 mt-10 rounded-xl">
+          <footer className="bg-white/20 dark:bg-white/40 w-full py-1 mt-10 rounded-xl">
             <IconCards />
           </footer>
         )}</div>

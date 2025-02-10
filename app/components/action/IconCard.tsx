@@ -41,7 +41,7 @@ export function IconCard({
       />
 
       {/* Name */}
-      <h3 className="text-lg font-semibold text-gray-300 dark:text-gray-900">
+      <h3 className=" text-md lg:text-lg font-semibold text-gray-300 dark:text-gray-900 text-center">
         {icon.name}
       </h3>
 

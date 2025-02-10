@@ -22,19 +22,18 @@ export default function IconCards() {
   ];
 
   return (
-    <div className="flex flex-wrap justify-center gap-6 p-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:flex lg:flex-wrap lg:justify-center gap-6 p-6">
       {icons.map((icon, index) => (
         <IconCard
           key={index}
           icon={{
-            name: t(`icons.${icon.key}.name` as keyof Translations), // ✅ Type assertion
+            name: t(`icons.${icon.key}.name` as keyof Translations),
             file: icon.file,
-            description: t(`icons.${icon.key}.description` as keyof Translations), // ✅ Type assertion
+            description: t(`icons.${icon.key}.description` as keyof Translations),
           }}
         />
-
-
       ))}
     </div>
   );
+
 }
