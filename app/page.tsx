@@ -17,6 +17,7 @@ export default function Home() {
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isContactModalOpen, setContactModalOpen] = useState(false);
   const [isServicesPage, setIsServicesPage] = useState(false);
+  const [activeModal, setActiveModal] = useState<"location" | "contact" | null>(null);
 
   if (!isLoaded) {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
@@ -27,12 +28,11 @@ export default function Home() {
   return (
     <section className="min-h-screen flex flex-col bg-darkGradient dark:bg-yellowGradient text-gray-100 dark:text-gray-900 p-5 lg:p-10">
 
-
       {/* Location Modal */}
-      {isLocationModalOpen && (
+      {activeModal === "location" && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-          onClick={() => setLocationModalOpen(false)}
+          onClick={() => setActiveModal(null)}
         >
           <div
             className="bg-gray-700 dark:bg-gray-100 p-6 rounded-lg w-[90%] lg:w-[50%] shadow-lg"
@@ -51,20 +51,16 @@ export default function Home() {
                 loading="lazy"
               ></iframe>
             </div>
-            <StyledButton
-              text={t("close" as keyof Translations)}
-              onClick={() => setLocationModalOpen(false)}
-            />
+            <StyledButton text={t("close" as keyof Translations)} onClick={() => setActiveModal(null)} />
           </div>
         </div>
       )}
 
       {/* Contact Modal */}
-
-      {isContactModalOpen && (
+      {activeModal === "contact" && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-          onClick={() => setContactModalOpen(false)}
+          onClick={() => setActiveModal(null)}
         >
           <div
             className="bg-gray-700 dark:bg-gray-100 p-4 lg:p-6 rounded-lg w-[90%] lg:w-[40%] shadow-lg"
@@ -73,10 +69,7 @@ export default function Home() {
             <h2 className="text-2xl font-bold mb-4">{t("contactUs")}</h2>
             <p className="text-gray-300 dark:text-gray-800 mb-2">
               <strong>{t("phone")}: </strong>
-              <a
-                href="tel:+37061234567"
-                className="text-yellow-400 dark:text-yellow-500 hover:underline"
-              >
+              <a href="tel:+37061234567" className="text-yellow-400 dark:text-yellow-500 hover:underline">
                 +370 612 34567
               </a>
             </p>
@@ -87,13 +80,12 @@ export default function Home() {
             <p className="text-gray-300 dark:text-gray-800 text-sm lg:text-base">
               <strong>{t("address")}: </strong> Elnio g. 18, Šiauliai, 76281 Šiaulių m. sav
             </p>
-            <StyledButton
-              text={t("close" as keyof Translations)}
-              onClick={() => setContactModalOpen(false)}
-            />
+            <StyledButton text={t("close" as keyof Translations)} onClick={() => setActiveModal(null)} />
           </div>
         </div>
       )}
+
+
       <div className="min-h-full flex-grow w-full bg-white/10 dark:bg-white/30 rounded-xl flex flex-col border-2 border-transparent items-center
                 animate-[pulseGlow_1.5s_ease-in-out_infinite] dark:animate-[darkPulseGlow_1.5s_ease-in-out_infinite]">
 
@@ -104,8 +96,8 @@ export default function Home() {
 
         {/* Header */}
         <Header
-          setLocationModalOpen={setLocationModalOpen}
-          setContactModalOpen={setContactModalOpen}
+          setLocationModalOpen={() => setActiveModal("location")}
+          setContactModalOpen={() => setActiveModal("contact")}
           onLogoClick={() => setIsServicesPage(false)}
           onServicesClick={() => setIsServicesPage(true)}
         />
@@ -133,7 +125,7 @@ export default function Home() {
                 <p className="text-lg text-gray-300 dark:text-gray-700 lg:mb-6">{t("description")}</p>
                 <StyledButton
                   text={t("reserveNow" as keyof Translations)}
-                  onClick={() => setContactModalOpen(true)}
+                  onClick={() => setActiveModal("contact")}
                 />
               </div>
               <div className="flex justify-center w-full  lg:w-1/2 ">
