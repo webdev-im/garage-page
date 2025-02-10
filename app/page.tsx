@@ -126,7 +126,7 @@ export default function Home() {
               <ServiceCards />
             </div>
           ) : (
-            <div className="flex flex-col-reverse lg:flex-row-reverse w-full max-w-5xl mt-10 gap-8">
+            <div className="flex flex-col-reverse w-full lg:flex-row max-w-5xl mt-10 gap-8">
               <div className="text-left">
                 <p className="italic text-gray-400 dark:text-gray-600">{t("subheadline")}</p>
                 <h1 className="text-4xl md:text-5xl font-black my-4">{t("headline")}</h1>
@@ -151,7 +151,7 @@ export default function Home() {
         </main>
         {/* Footer */}
         {!isServicesPage && (
-          <footer className="bg-white/20 dark:bg-white/40 w-full py-1 mt-10 rounded-xl">
+          <footer className="bg-white/20 dark:bg-white/40 w-full py-0 mt-10 rounded-xl">
             <IconCards />
           </footer>
         )}</div>

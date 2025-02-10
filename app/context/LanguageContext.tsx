@@ -2,8 +2,8 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import en from "@/public/locales/en.json";
-import lt from "@/public/locales/lt.json";
+import en from "../locales/en.json";
+import lt from "../locales/lt.json";
 
 type Language = "en" | "lt";
 
@@ -50,7 +50,7 @@ export interface Translations {
       name: string;
       description: string;
     };
-  },
+  };
 }
 
 interface LanguageContextProps {
@@ -80,8 +80,12 @@ const getSafeTranslations = (data: Partial<Translations>): Translations => ({
   monFri: data.monFri ?? "Mon - Fri",
   phone: data.phone ?? "Phone",
   servicesPageTitle: data.servicesPageTitle ?? "Explore our services",
-  servicesPageSubtitle: data.servicesPageSubtitle ?? "Quality care for your vehicle, driven by expertise and presition",
-  servicesPageSlogan: data.servicesPageSlogan ?? "Your car deserves the best – and we deliver it",
+  servicesPageSubtitle:
+    data.servicesPageSubtitle ??
+    "Quality care for your vehicle, driven by expertise and precision",
+  servicesPageSlogan:
+    data.servicesPageSlogan ??
+    "Your car deserves the best – and we deliver it",
   keywords: {
     car_repair: data.keywords?.car_repair ?? "Car Repair",
     auto_care: data.keywords?.auto_care ?? "Auto Care",
@@ -102,25 +106,25 @@ const getSafeTranslations = (data: Partial<Translations>): Translations => ({
   icons: data.icons ?? {}, // Ensure icons always exist
 });
 
-const LanguageContext = createContext<LanguageContextProps | undefined>(undefined);
+const LanguageContext = createContext<LanguageContextProps | undefined>(
+  undefined
+);
 
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
   const [language, setLanguage] = useState<Language>(() => {
     if (typeof window !== "undefined") {
       return (localStorage.getItem("language") as Language) || "lt";
     }
-    return "en";
+    return "lt"; // Default language
   });
 
   const [translations, setTranslations] = useState<Translations>(() =>
-    getSafeTranslations(typeof window !== "undefined" && localStorage.getItem("language") === "lt" ? lt : en)
+    getSafeTranslations(language === "lt" ? lt : en)
   );
-
-
 
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // ✅ Load stored language when component mounts
+  // ✅ Load stored language once when component mounts
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedLang = localStorage.getItem("language") as Language;
@@ -129,17 +133,17 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
       }
       setIsLoaded(true);
     }
-  }, [language]);
+  }, []); // ✅ Runs only on mount
 
   // ✅ Update translations when language changes
   useEffect(() => {
-    setTranslations(getSafeTranslations(language === "lt" ? lt : en));
-    localStorage.setItem("language", language);
-  }, [language]);
+    if (isLoaded) {
+      setTranslations(getSafeTranslations(language === "lt" ? lt : en));
+      localStorage.setItem("language", language);
+    }
+  }, [language, isLoaded]); // ✅ Prevents updates before load
 
-
-
-
+  // ✅ Translation function (no infinite loops)
   const t = (key: string): string => {
     const keys = key.split(".");
     let value: unknown = translations;
@@ -149,18 +153,12 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
         value = (value as Record<string, unknown>)[k];
       } else {
         console.warn(`⚠ Missing translation key: "${key}"`);
-        return key; // ✅ Return the key instead of modifying the string
+        return key;
       }
     }
 
-    return typeof value === "string" ? value.trim() : key; // ✅ No dot modifications
+    return typeof value === "string" ? value.trim() : key;
   };
-
-
-
-
-
-
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t, isLoaded }}>

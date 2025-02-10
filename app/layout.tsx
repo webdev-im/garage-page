@@ -1,49 +1,13 @@
 import "./globals.css";
 
 import { LanguageProvider } from "./context/LanguageContext";
-import { ReactNode } from "react";
+import type { Metadata } from "next";
 import ThemeWrapper from "./components/layout/ThemeWrapper";
-import enData from "../public/locales/en.json";
-import ltData from "../public/locales/lt.json";
+import { cookies } from "next/headers";
 
-// ✅ Define a strict type for translations
-interface TranslationData {
-  title: string;
-  description: string;
-  keywords: {
-    car_repair: string;
-    auto_care: string;
-    vehicle_service: string;
-    mechanic: string;
-    car_maintenance: string;
-  };
-}
-
-interface LayoutProps {
-  children: ReactNode;
-  params: Awaited<{ locale: string }>; // ✅ Ensures `params` is resolved
-}
-
-// ✅ Fix: Ensure `translations` has the correct type
-export async function generateMetadata({ params }: { params: { locale: string } }) {
-  const language = params.locale || "en"; // Default to "en"
-
-  const translations: TranslationData =
-    language === "lt" ? (ltData as TranslationData) : (enData as TranslationData);
-
-  return {
-    title: translations.title,
-    description: translations.description,
-    keywords: Object.values(translations.keywords),
-  };
-}
-
-
-export default async function RootLayout({ children, params }: LayoutProps) {
-  const resolvedParams = await params; // ✅ Fix: Await the promise
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={resolvedParams.locale}>
+    <html lang="en">
       <body>
         <ThemeWrapper>
           <LanguageProvider>{children}</LanguageProvider>
@@ -51,4 +15,22 @@ export default async function RootLayout({ children, params }: LayoutProps) {
       </body>
     </html>
   );
+}
+
+
+// ✅ `generateMetadata` now awaits `cookies()` properly
+export async function generateMetadata(): Promise<Metadata> {
+  const cookiesList = await cookies(); // ✅ Await the promise
+  const locale = cookiesList.get("NEXT_LOCALE")?.value || "en"; // ✅ Get locale safely
+
+  const translations =
+    locale === "lt"
+      ? (await import("./locales/lt.json")).default
+      : (await import("./locales/en.json")).default;
+
+  return {
+    title: translations.title,
+    description: translations.description,
+    keywords: Object.values(translations.keywords),
+  };
 }
