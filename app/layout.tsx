@@ -3,7 +3,6 @@ import "./globals.css";
 import { LanguageProvider } from "./context/LanguageContext";
 import { ReactNode } from "react";
 import ThemeWrapper from "./components/layout/ThemeWrapper";
-import { dir } from "i18next";
 import enData from "../public/locales/en.json";
 import ltData from "../public/locales/lt.json";
 
@@ -41,10 +40,10 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 
 export default async function RootLayout({ children, params }: LayoutProps) {
-  const resolvedParams = await params; // ✅ Await the Promise
+  const resolvedParams = await params; // ✅ Fix: Await the promise
 
   return (
-    <html lang={resolvedParams.locale} dir={dir(resolvedParams.locale)}>
+    <html lang={resolvedParams.locale}>
       <body>
         <ThemeWrapper>
           <LanguageProvider>{children}</LanguageProvider>
@@ -53,5 +52,3 @@ export default async function RootLayout({ children, params }: LayoutProps) {
     </html>
   );
 }
-
-
