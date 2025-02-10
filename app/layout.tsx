@@ -22,7 +22,7 @@ interface TranslationData {
 
 interface LayoutProps {
   children: ReactNode;
-  params: { locale: string }; // ✅ Ensure `params` is always an object
+  params: Awaited<{ locale: string }>; // ✅ Ensures `params` is resolved
 }
 
 // ✅ Fix: Ensure `translations` has the correct type
