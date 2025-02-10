@@ -4,8 +4,8 @@ import { LanguageProvider } from "./context/LanguageContext";
 import { ReactNode } from "react";
 import ThemeWrapper from "./components/layout/ThemeWrapper";
 import { dir } from "i18next";
-import enData from "@/public/locales/en.json";
-import ltData from "@/public/locales/lt.json";
+import enData from "../public/locales/en.json";
+import ltData from "../public/locales/lt.json";
 
 // ✅ Define a strict type for translations
 interface TranslationData {
@@ -40,8 +40,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 }
 
 export default function RootLayout({ children, params }: LayoutProps) {
+  const locale = params?.locale ?? "en"; // Ensure locale is always valid
   return (
-    <html lang={params.locale} dir={dir(params.locale)}>
+    <html lang={locale} dir={dir(params.locale)}>
       <body>
         <ThemeWrapper>
           <LanguageProvider>{children}</LanguageProvider>
