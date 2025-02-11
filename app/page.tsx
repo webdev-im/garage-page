@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "./components/layout/Footer";
 import { Header } from "./components/layout/Header";
 import IconCards from "./components/layout/IconCards";
 import Image from "next/image";
@@ -24,7 +25,8 @@ export default function Home() {
   const carImage = theme === "dark" ? "/blackCar.png" : "/yellowCar.png";
 
   return (
-    <section className="min-h-screen flex flex-col bg-darkGradient dark:bg-yellowGradient text-gray-100 dark:text-gray-900 p-5 lg:p-9">
+    <section className="min-h-screen flex flex-col bg-darkGradient dark:bg-yellowGradient text-gray-100 dark:text-gray-900 p-5 pb-0 lg:p-9 lg:pb-0">
+
 
       {/* Location Modal */}
       {activeModal === "location" && (
@@ -84,7 +86,7 @@ export default function Home() {
       )}
 
 
-      <div className="min-h-full flex-grow w-full bg-white/10 dark:bg-white/30 rounded-xl flex flex-col border-2 border-transparent items-center
+      <div className=" flex-grow min-h-full flex-grow w-full bg-white/10 dark:bg-white/30 rounded-xl flex flex-col border-2 border-transparent items-center
                 animate-[pulseGlow_1.5s_ease-in-out_infinite] dark:animate-[darkPulseGlow_1.5s_ease-in-out_infinite]">
 
 
@@ -146,6 +148,7 @@ export default function Home() {
             <IconCards />
           </footer>
         )}</div>
+      <Footer />
     </section>
   );
 }
