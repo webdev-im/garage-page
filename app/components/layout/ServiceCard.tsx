@@ -23,7 +23,7 @@ export function ServiceCard({
             onMouseEnter={() => setActiveCard(service.name)} // Desktop hover
             onMouseLeave={() => setActiveCard(null)} // Remove hover effect
             className={`relative flex flex-col items-center justify-center cursor-pointer ${isActive
-                ? "bg-yellow-300 text-black dark:bg-yellow-500"
+                ? "bg-yellow-300 text-black dark:bg-yellow-300"
                 : "bg-gray-100 text-black dark:bg-gray-900 dark:text-white"
                 } p-4 sm:p-6 rounded-lg shadow-md transform transition-all duration-300 ${isActive
                     ? "scale-105 ring-2 ring-yellow-300 dark:ring-yellow-500"
