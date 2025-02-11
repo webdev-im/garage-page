@@ -118,28 +118,38 @@ export default function Home() {
               <ServiceCards />
             </div>
           ) : (
-            <div className="flex flex-col-reverse lg:flex-row w-full max-w-5xl gap-8 mt-5">
-              <div className="text-left lg:w-1/2 " >
-                <p className="italic text-gray-400 dark:text-gray-600">{t("subheadline")}</p>
-                <h1 className="text-4xl md:text-5xl font-black my-4">{t("headline")}</h1>
-                <p className="text-lg text-gray-300 dark:text-gray-700 lg:mb-6">{t("description")}</p>
+            <div className="flex flex-col-reverse lg:flex-row w-full max-w-5xl xl:max-w-screen-xl 2xl:max-w-screen-2xl gap-8 xl:gap-12 2xl:gap-16 mt-5 border-solid border-4 border-gray-600">
+              {/* Left Side: Text Content */}
+              <div className="text-left lg:w-1/2">
+                <p className="italic text-gray-400 dark:text-gray-600 text-lg 2xl:text-xl">
+                  {t("subheadline")}
+                </p>
+                <h1 className="text-4xl md:text-5xl 2xl:text-6xl font-black my-4">
+                  {t("headline")}
+                </h1>
+                <p className="text-lg 2xl:text-xl text-gray-300 dark:text-gray-700 lg:mb-6">
+                  {t("description")}
+                </p>
                 <StyledButton
                   text={t("reserveNow" as keyof Translations)}
                   onClick={() => setActiveModal("contact")}
                 />
               </div>
-              <div className="flex justify-center w-full  lg:w-1/2 ">
+
+              {/* Right Side: Image */}
+              <div className="flex justify-center w-full lg:w-1/2">
                 <Image
                   src={carImage}
                   alt={t("openGraph.image_alt" as keyof Translations)}
-                  width={1000} // ⬆ Increased from 800
-                  height={750} // ⬆ Increased from 600
-                  className="rounded-lg object-contain w-full lg:w-[120%] h-auto"
+                  width={1000}
+                  height={750}
+                  className="rounded-lg object-contain w-full lg:w-[120%] 2xl:w-[95%] 2xl:max-w-[1000px] h-auto"
                   priority
                 />
               </div>
-
             </div>
+
+
           )}
         </main>
         {/* Footer */}
