@@ -11,6 +11,8 @@ import { useLanguage } from "./context/LanguageContext";
 import { useState } from "react";
 import { useTheme } from "next-themes";
 
+export const dynamic = "force-dynamic"; // ✅ Forces metadata to update dynamically
+
 export default function Home() {
   const { t, isLoaded } = useLanguage();
   const { theme } = useTheme();
@@ -118,7 +120,7 @@ export default function Home() {
               <ServiceCards />
             </div>
           ) : (
-            <div className="flex flex-col-reverse lg:flex-row w-full max-w-5xl xl:max-w-screen-xl 2xl:max-w-screen-2xl gap-8 xl:gap-12 2xl:gap-16 mt-5 border-solid border-4 border-gray-600">
+            <div className="flex flex-col-reverse lg:flex-row w-full max-w-5xl xl:max-w-screen-xl 2xl:max-w-screen-2xl gap-8 xl:gap-12 2xl:gap-16 mt-5 ">
               {/* Left Side: Text Content */}
               <div className="text-left lg:w-1/2">
                 <p className="italic text-gray-400 dark:text-gray-600 text-lg 2xl:text-xl">
@@ -137,7 +139,7 @@ export default function Home() {
               </div>
 
               {/* Right Side: Image */}
-              <div className="flex justify-center w-full lg:w-1/2">
+              <div className="flex justify-center w-full lg:w-1/2 my-[100] lg:my-0">
                 <Image
                   src={carImage}
                   alt={t("openGraph.image_alt" as keyof Translations)}

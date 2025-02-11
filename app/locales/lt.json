@@ -30,10 +30,13 @@
     "car_maintenance": "automobilių priežiūra"
   },
   "openGraph": {
-    "description": "Gaukite greitą ir patikimą automobilių remontą be rūpesčių",
-    "image_alt": "Automobilių servisas"
+    "title": "Greiti ir Patikimi Automobilių Remonto Darbai",
+    "description": "Gaukite savo automobilį suremontuotą greitai ir patikimai su mūsų lengvomis automobilių priežiūros paslaugomis.",
+    "image": "/images/og-image.jpg",
+    "image_alt": "Automobilių Servisas"
   },
   "twitter": {
+    "title": "Patikimas autoservisas",
     "description": "Greitas, patikimas ir prieinamas automobilių remontas"
   },
   "icons": {
