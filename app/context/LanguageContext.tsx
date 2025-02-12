@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { getCookie, setCookie } from "cookies-next"; // ✅ Cookies for Next.js 14
 
 import en from "../locales/en.json";
 import lt from "../locales/lt.json";
@@ -84,14 +85,13 @@ const getSafeTranslations = (data: Partial<Translations>): Translations => ({
   phone: data.phone ?? "Phone",
   servicesPageTitle: data.servicesPageTitle ?? "Explore our services",
   madeWith: data.madeWith ?? "Made with",
-  by: data.by ?? "bY",
+  by: data.by ?? "by",
   externalLink: data.externalLink ?? "External link",
   servicesPageSubtitle:
     data.servicesPageSubtitle ??
     "Quality care for your vehicle, driven by expertise and precision",
   servicesPageSlogan:
-    data.servicesPageSlogan ??
-    "Your car deserves the best – and we deliver it",
+    data.servicesPageSlogan ?? "Your car deserves the best – and we deliver it",
   keywords: {
     car_repair: data.keywords?.car_repair ?? "Car Repair",
     auto_care: data.keywords?.auto_care ?? "Auto Care",
@@ -119,7 +119,7 @@ const LanguageContext = createContext<LanguageContextProps | undefined>(
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
   const [language, setLanguage] = useState<Language>(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem("language") as Language) || "lt";
+      return (getCookie("NEXT_LOCALE") as Language) || "lt";
     }
     return "lt"; // Default language
   });
@@ -130,35 +130,23 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
 
   const [isLoaded, setIsLoaded] = useState(false);
 
-
-
   useEffect(() => {
     if (typeof window === "undefined") return; // ✅ Prevent running on server (SSR)
 
-    const storedLang = localStorage.getItem("language") as Language;
+    const storedLang = getCookie("NEXT_LOCALE") as Language;
 
-    // ✅ Prevent setting state if it’s already correct
-    if (storedLang && storedLang !== language && !isLoaded) {
+    if (storedLang && storedLang !== language) {
       setLanguage(storedLang);
-    } else if (!isLoaded) {
-      setIsLoaded(true);
     }
-  }, [language, isLoaded]); // ✅ Prevents infinite loop, satisfies Next.js rules
-
-
-
-
+    setIsLoaded(true);
+  }, [language]); // ✅ Correctly includes `language` without infinite re-renders
 
   useEffect(() => {
     if (!isLoaded) return; // ✅ Prevent updating before initialization
 
     setTranslations(getSafeTranslations(language === "lt" ? lt : en));
-    localStorage.setItem("language", language);
-  }, [language, isLoaded]); // ✅ Ensures it only runs when language changes, avoiding early updates
-
-
-
-
+    setCookie("NEXT_LOCALE", language, { path: "/" }); // ✅ Store in cookies
+  }, [language, isLoaded]); // ✅ Ensures updates only when necessary
 
   const t = (key: string): string => {
     const keys = key.split(".");

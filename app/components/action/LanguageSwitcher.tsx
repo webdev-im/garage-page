@@ -1,10 +1,17 @@
 "use client";
 
+import { setCookie } from "cookies-next"; // ✅ Ensure cookies update dynamically
 import { useLanguage } from "../../context/LanguageContext";
 
 export default function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
   const isLithuanian = language === "lt";
+
+  const toggleLanguage = () => {
+    const newLanguage = isLithuanian ? "en" : "lt";
+    setLanguage(newLanguage);
+    setCookie("NEXT_LOCALE", newLanguage, { path: "/" }); // ✅ Ensure server receives update
+  };
 
   return (
     <label
@@ -15,7 +22,7 @@ export default function LanguageSwitcher() {
         type="checkbox"
         id="LanguageSwitcher"
         checked={isLithuanian}
-        onChange={() => setLanguage(isLithuanian ? "en" : "lt")}
+        onChange={toggleLanguage}
         className="peer sr-only"
       />
 
@@ -23,27 +30,15 @@ export default function LanguageSwitcher() {
       <span
         className="absolute inset-y-0 start-0 z-10 m-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-gray-500 transition-all peer-checked:start-8"
       >
-        {/* Active Language Text */}
-        <span className="text-sm font-bold text-black">
-          {isLithuanian ? "LT" : "EN"}
-        </span>
+        <span className="text-sm font-bold text-black">{isLithuanian ? "LT" : "EN"}</span>
       </span>
 
       {/* Opposite Language Inside Background */}
       <div className="absolute inset-0 flex items-center justify-between px-2">
-        {/* Lithuanian */}
-        <span
-          className={`text-sm font-medium ${isLithuanian ? "text-gray-400" : "text-gray-500"
-            }`}
-        >
+        <span className={`text-sm font-medium ${isLithuanian ? "text-gray-400" : "text-gray-500"}`}>
           EN
         </span>
-
-        {/* English */}
-        <span
-          className={`text-sm font-medium ${isLithuanian ? "text-gray-500" : "text-gray-400"
-            }`}
-        >
+        <span className={`text-sm font-medium ${isLithuanian ? "text-gray-500" : "text-gray-400"}`}>
           LT
         </span>
       </div>
