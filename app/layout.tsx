@@ -17,11 +17,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: translations.title || "Default Title",
     description: translations.description || "Default Description",
-    openGraph: {
-      title: translations.openGraph.title || "Default OG Title",
-      description: translations.openGraph.description || "Default OG Description",
-      images: [{ url: translations.openGraph.image || "/default-og.jpg", alt: translations.openGraph.image_alt || "Default OG Image" }],
-    },
   };
 }
 
