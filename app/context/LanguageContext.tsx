@@ -17,6 +17,7 @@ export interface Translations {
   contact: string;
   services: string;
   map: string;
+  directions: string;
   location: string;
   ourLocation: string;
   close: string;
@@ -53,6 +54,9 @@ export interface Translations {
     [key: string]: {
       name: string;
       description: string;
+      point1?: string;
+      point2?: string;
+      point3?: string;
     };
   };
 }
@@ -74,6 +78,7 @@ const getSafeTranslations = (data: Partial<Translations>): Translations => ({
   contact: data.contact ?? "Contact Us",
   services: data.services ?? "Our Services",
   map: data.map ?? "Find Us",
+  directions: data.directions ?? "Directions",
   location: data.location ?? "Location",
   ourLocation: data.map ?? "Our location",
   close: data.close ?? "Close",

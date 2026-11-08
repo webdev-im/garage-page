@@ -13,18 +13,20 @@ export const Header = ({
   setContactModalOpen,
   onLogoClick,
   onServicesClick,
+  wide = false,
 }: {
   setLocationModalOpen: (open: boolean) => void;
   setContactModalOpen: (open: boolean) => void;
   onLogoClick: () => void; // Callback for logo click
   onServicesClick: () => void; // Callback for services click
+  wide?: boolean;
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
   const { t } = useLanguage();
 
   return (
-    <header className="mx-auto w-[100%] lg:w-[60%] bg-white dark:bg-gray-900 shadow-md rounded-xl flex items-center justify-between px-6 py-2 lg:py-3 z-50">
+    <header className={`mx-auto w-full shrink-0 ${wide ? "max-w-6xl" : "lg:w-[60%]"} bg-white dark:bg-gray-900 shadow-md rounded-xl flex items-center justify-between px-6 py-2 lg:py-3 z-50`}>
       {/* Logo (Left) */}
 
 
@@ -91,10 +93,22 @@ export const Header = ({
   );
 };
 
-const NavLink = ({ label, href, onClick }: { label: string; href: string; onClick?: () => void }) => (
+const NavLink = ({
+  label,
+  href,
+  onClick,
+  tone = "header",
+}: {
+  label: string;
+  href: string;
+  onClick?: () => void;
+  tone?: "header" | "page";
+}) => (
   <Link
     href={href}
-    className="text-black dark:text-white hover:underline transition-colors px-4"
+    className={`px-4 transition-colors hover:underline ${
+      tone === "page" ? "text-white dark:text-neutral-900" : "text-black dark:text-white"
+    }`}
     onClick={(e) => {
       e.preventDefault();
       if (onClick) onClick();
@@ -137,9 +151,9 @@ const MobileDrawer = ({
       ></div>
 
       {/* Drawer */}
-      <div className="fixed right-0 top-0 h-full w-64 z-50 bg-white dark:bg-gray-900 shadow-lg transform transition-transform duration-300 flex flex-col">
+      <div className="fixed right-0 top-0 z-50 flex h-full w-64 transform flex-col bg-neutral-900 text-white shadow-lg transition-transform duration-300 dark:bg-white dark:text-neutral-900">
         {/* Header Section (Close Button + Togglers) */}
-        <div className="flex flex-row items-center justify-between px-3 py-4 border-b border-gray-300 dark:border-gray-700">
+        <div className="flex flex-row items-center justify-between border-b border-white/15 px-3 py-4 dark:border-black/10">
           {/* Theme & Language Switchers (Left Side) */}
           <div className="flex space-x-3">
             <ThemeToggler />
@@ -148,7 +162,7 @@ const MobileDrawer = ({
 
           {/* Close Button (Right Side) */}
           <button
-            className="text-black dark:text-white text-xl"
+            className="text-xl text-white dark:text-neutral-900"
             onClick={toggleDrawer}
             aria-label="Close Menu"
           >
@@ -161,6 +175,7 @@ const MobileDrawer = ({
           <NavLink
             label={t("services")}
             href="#"
+            tone="page"
             onClick={() => {
               onServicesClick();
               toggleDrawer();
@@ -169,6 +184,7 @@ const MobileDrawer = ({
           <NavLink
             label={t("map")}
             href="#"
+            tone="page"
             onClick={() => {
               setLocationModalOpen(true);
               toggleDrawer();
@@ -177,6 +193,7 @@ const MobileDrawer = ({
           <NavLink
             label={t("contact")}
             href="#"
+            tone="page"
             onClick={() => {
               setContactModalOpen(true);
               toggleDrawer();
@@ -189,7 +206,7 @@ const MobileDrawer = ({
         {/* Bottom Close Button (Larger Gap) */}
         <div className="p-6 mt-auto">
           <button
-            className="w-full bg-gray-200 dark:bg-gray-700 text-black dark:text-white py-2 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+            className="w-full rounded-md bg-white/10 py-2 text-white transition hover:bg-white/20 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
             onClick={toggleDrawer}
           >
             {t("close")}

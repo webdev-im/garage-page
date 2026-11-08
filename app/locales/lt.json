@@ -11,6 +11,7 @@
   "address": "Adresas",
   "services": "Mūsų Paslaugos",
   "map": "Žemėlapis",
+  "directions": "Maršrutas",
   "location": "Mūsų adresas",
   "ourLocation": "Mūsų vieta",
   "close": "Uždaryti",
@@ -42,51 +43,87 @@
   "icons": {
     "battery": {
       "name": "Akumuliatorius",
-      "description": "Akumuliatoriaus tikrinimas ir keitimas"
+      "description": "Patikriname, ar akumuliatorius pavargęs, ar srovę vagia kas nors kitas, ir keičiame tik tada, kai jis tikrai baigtas.",
+      "point1": "Įkrovos ir būklės testas",
+      "point2": "Gnybtai, generatorius ir srovės nuotėkis",
+      "point3": "Keitimas ir patikra po sumontavimo"
     },
     "brake": {
       "name": "Stabdžiai",
-      "description": "Stabdžių remontas ir priežiūra"
+      "description": "Minkštas pedalas, traukimas į šoną ar girgždesys — surandame sudilusią dalį ir keičiame tai, kam tikrai laikas.",
+      "point1": "Kaladėlės, diskai ir suportų patikra",
+      "point2": "Stabdžių skysčio būklė",
+      "point3": "Įspėjamosios lemputės ir rankinis stabdys"
     },
     "dashboard": {
       "name": "Prietaisų skydelis",
-      "description": "Prietaisų skydelio diagnostika ir remontas"
+      "description": "Įspėjamosios lemputės ir neveikiantys rodikliai dažniausiai reiškia jutiklį arba skydelio gedimą, todėl dalis keičiame tik nuskanavę automobilį.",
+      "point1": "Įspėjamųjų lempučių diagnostika",
+      "point2": "Prietaisų skydelio gedimai",
+      "point3": "Su rodmenimis susiję jutikliai"
     },
     "electric": {
       "name": "Elektronika",
-      "description": "Elektros sistemos tikrinimas"
+      "description": "Srovės nuotėkis, langai, šviesos ir jutikliai — gedimą surandame, o ne keičiame dalis aklai.",
+      "point1": "Įkrovimas ir akumuliatoriaus iškrova",
+      "point2": "Šviesos, langai ir centrinis užraktas",
+      "point3": "Laidynas ir jutiklių gedimai"
     },
     "filter": {
-      "name": "Filtras",
-      "description": "Filtrų keitimas švaresniam veikimui"
+      "name": "Filtrai",
+      "description": "Per ilgai nekeistas filtras verčia variklį, saloną ir kuro sistemą dirbti sunkiau, nei reikia.",
+      "point1": "Alyvos, oro ir salono filtrai",
+      "point2": "Kuro filtras, jei automobilis jį turi",
+      "point3": "Keitimas pagal automobilio intervalą"
     },
     "fuel": {
       "name": "Kuro sistema",
-      "description": "Kuro sistemos priežiūra ir remontas"
+      "description": "Sunkus užvedimas, trūkčiojimas ar kuro kvapas dažnai prasideda čia, todėl slėgį patikriname prieš keisdami brangias dalis.",
+      "point1": "Siurblys, magistralės ir slėgis",
+      "point2": "Purkštukai ir kuro filtras",
+      "point3": "Prastas darbas ir didelės sąnaudos"
     },
     "gearbox": {
       "name": "Pavarų dėžė",
-      "description": "Pavarų dėžės patikra ir remontas"
+      "description": "Slydimas, kietas perjungimas ar triukšmas vienoje pavaroje — apžiūrime dėžę ir pasakome, ar kalta alyva, perjungimas, ar rimtesnis gedimas.",
+      "point1": "Mechaninių ir automatinių patikra",
+      "point2": "Alyvos lygis, kur jį galima patikrinti",
+      "point3": "Triukšmas, slydimas ir perjungimas"
     },
     "ignition": {
-      "name": "Variklio degimas",
-      "description": "Uždegimo sistemos diagnostika"
+      "name": "Uždegimas",
+      "description": "Pertrūkiai ir ilgas sukimas dažnai būna žvakė, ritė ar laidas — tai patvirtiname testu, ne spėjimu.",
+      "point1": "Uždegimo žvakės ir ritės",
+      "point2": "Pertrūkiai ir sunkus užvedimas",
+      "point3": "Susiję klaidų kodai"
     },
     "repairs": {
       "name": "Remontas",
-      "description": "Bendros automobilių remonto paslaugos"
+      "description": "Darbas, kuris netelpa į vieną pavadinimą: triukšmas, pratekėjimas ar automobilis, kuris tiesiog nevažiuoja.",
+      "point1": "Mechaninių gedimų paieška",
+      "point2": "Kas skubu, o kas gali palaukti",
+      "point3": "Darbus pradedame tik suderinus"
     },
     "rotor": {
-      "name": "Rotorius",
-      "description": "Rotorų remontas ir keitimas"
+      "name": "Stabdžių diskai",
+      "description": "Išraižyti ar pulsuojantys diskai daro naujas kaladėles bevertes, todėl juos išmatuojame ir keičiame poromis, kai neatitinka normos.",
+      "point1": "Storio ir mušimo patikra",
+      "point2": "Diskų ir kaladėlių keitimas",
+      "point3": "Vibracija stabdant"
     },
     "service": {
-      "name": "Servisas",
-      "description": "Pilnas automobilio aptarnavimas"
+      "name": "Pilnas servisas",
+      "description": "Planinis vizitas: skysčiai, filtrai ir apžiūra likusios automobilio dalies, kad smulkmena netaptų sustojimu pakelėje.",
+      "point1": "Variklio alyva ir filtrai",
+      "point2": "Skysčiai, šviesos ir stabdžiai",
+      "point3": "Aiškus sąrašas, ką radome"
     },
     "steering_wheel": {
-      "name": "Vairo sistema",
-      "description": "Vairo reguliavimas ir remontas"
+      "name": "Vairas",
+      "description": "Laisvumas vaire, traukimas ar dejavimas sukant — patikriname šarnyrus ir stiprintuvą, kol gedimas neišaugo.",
+      "point1": "Laisvumas, pratekėjimai ir šarnyrai",
+      "point2": "Vairo stiprintuvo pojūtis",
+      "point3": "Traukimas ir vibracija"
     }
   }
 }

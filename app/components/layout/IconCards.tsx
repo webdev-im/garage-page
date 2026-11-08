@@ -2,38 +2,36 @@ import { IconCard } from "../action/IconCard";
 import { Translations } from "../../context/LanguageContext";
 import { useLanguage } from "../../context/LanguageContext";
 
-export default function IconCards() {
-  const { t } = useLanguage(); // ✅ Get translations
-
-  const icons = [
-    { key: "battery", file: "Battery.svg" },
-    { key: "brake", file: "Brake.svg" },
-    { key: "dashboard", file: "Dashboard.svg" },
+const icons = [
+    { key: "service", file: "Service.svg" },
     { key: "filter", file: "Filter.svg" },
+    { key: "brake", file: "Brake.svg" },
+    { key: "rotor", file: "Rotor.svg" },
+    { key: "steering_wheel", file: "Steering wheel.svg" },
+    { key: "battery", file: "Battery.svg" },
+    { key: "electric", file: "Electric.svg" },
+    { key: "dashboard", file: "Dashboard.svg" },
+    { key: "ignition", file: "Ignition.svg" },
     { key: "fuel", file: "Fuel.svg" },
     { key: "gearbox", file: "Gearbox.svg" },
-    { key: "ignition", file: "Ignition.svg" },
     { key: "repairs", file: "Repairs.svg" },
-    { key: "rotor", file: "Rotor.svg" },
-    { key: "electric", file: "Electric.svg" },
-    { key: "steering_wheel", file: "Steering wheel.svg" },
-    { key: "service", file: "Service.svg" },
+];
 
-  ];
+export default function IconCards({ onOpenServices }: { onOpenServices?: () => void }) {
+    const { t } = useLanguage();
 
-  return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:flex lg:flex-wrap lg:justify-center gap-6 lg:gap-5 p-6 lg:p-4">
-      {icons.map((icon, index) => (
-        <IconCard
-          key={index}
-          icon={{
-            name: t(`icons.${icon.key}.name` as keyof Translations),
-            file: icon.file,
-            description: t(`icons.${icon.key}.description` as keyof Translations),
-          }}
-        />
-      ))}
-    </div>
-  );
-
+    return (
+        <div className="flex w-full items-center gap-1 overflow-x-auto px-2 py-2 [scrollbar-width:none] lg:justify-center lg:overflow-visible lg:px-4 [&::-webkit-scrollbar]:hidden">
+            {icons.map((icon) => (
+                <IconCard
+                    key={icon.key}
+                    onOpenServices={onOpenServices}
+                    icon={{
+                        name: t(`icons.${icon.key}.name` as keyof Translations),
+                        file: icon.file,
+                    }}
+                />
+            ))}
+        </div>
+    );
 }

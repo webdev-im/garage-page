@@ -9,8 +9,16 @@ import ServiceCards from "./components/layout/ServiceCards";
 import StyledButton from "./components/action/StyledButton";
 import { Translations } from "./context/LanguageContext";
 import { useLanguage } from "./context/LanguageContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { IoCall } from "react-icons/io5";
+
+const WORKSHOP_PHONE = "+37061234567";
+const WORKSHOP_PHONE_LABEL = "+370 612 34567";
+const WORKSHOP_ADDRESS = "Elnio g. 18, Šiauliai, 76281 Šiaulių m. sav";
+const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+  "Elnio g. 18, Šiauliai, 76281"
+)}&travelmode=driving`;
 
 export default function Home() {
   const { t, isLoaded } = useLanguage();
@@ -19,31 +27,45 @@ export default function Home() {
   const [isServicesPage, setIsServicesPage] = useState(false);
   const [activeModal, setActiveModal] = useState<"location" | "contact" | null>(null);
 
+  useEffect(() => {
+    if (!activeModal) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActiveModal(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [activeModal]);
+
   if (!isLoaded) {
-    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+    return <div className="flex h-dvh items-center justify-center">Loading...</div>;
   }
 
-  const carImage = theme === "dark" ? "/blackCar.png" : "/yellowCar.png";
+  const carImage = theme === "dark" ? "/blackCar.webp" : "/yellowCar.webp";
+  const closeModal = () => setActiveModal(null);
 
   return (
-    <>   <DynamicMetadata />
-      <section className="min-h-screen flex flex-col bg-darkGradient dark:bg-yellowGradient text-gray-100 dark:text-gray-900 p-5 pb-0 lg:p-9 lg:pb-0">
-        {/* Location Modal */}
+    <>
+      <DynamicMetadata />
+      <section className="flex h-dvh flex-col overflow-hidden bg-darkGradient p-3 pb-0 text-gray-100 dark:bg-yellowGradient dark:text-gray-900 sm:p-4 lg:p-5 lg:pb-0">
         {activeModal === "location" && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-            onClick={() => setActiveModal(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm"
+            onClick={closeModal}
           >
             <div
-              className="bg-gray-700 dark:bg-gray-100 p-6 rounded-lg w-[90%] lg:w-[50%] shadow-lg"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="location-title"
+              className="max-h-[calc(100dvh-2rem)] w-full max-w-2xl overflow-y-auto rounded-3xl bg-neutral-900 p-5 text-white shadow-2xl dark:bg-white dark:text-neutral-900 sm:p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <h2 className="text-2xl font-bold mb-4 mb-10 lg:mb-10">{t("location")}</h2>
-              <p className="mb-4 text-gray-400 dark:text-gray-800">
-                Elnio g. 18, Šiauliai, 76281 Šiaulių m. sav
-              </p>
-              <div className="w-full h-64 bg-gray-200 rounded-md overflow-hidden mb-10 lg:mb-5" >
+              <h2 id="location-title" className="text-2xl font-bold">
+                {t("location")}
+              </h2>
+              <p className="mt-2 text-gray-300 dark:text-gray-700">{WORKSHOP_ADDRESS}</p>
+              <div className="mt-4 h-56 overflow-hidden rounded-2xl bg-gray-200 sm:h-64">
                 <iframe
+                  title={t("location")}
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2235.344443309878!2d23.328426988829065!3d55.92606651317965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46e5e2e505171a6b%3A0x6bada76356297813!2sGiedrius%20Service!5e0!3m2!1sen!2slt!4v1738883897465!5m2!1sen!2slt"
                   width="100%"
                   height="100%"
@@ -51,83 +73,91 @@ export default function Home() {
                   loading="lazy"
                 ></iframe>
               </div>
-              <StyledButton text={t("close" as keyof Translations)} onClick={() => setActiveModal(null)} />
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <StyledButton compact href={DIRECTIONS_URL} text={t("directions" as keyof Translations)} />
+                <StyledButton compact variant="secondary" text={t("close" as keyof Translations)} onClick={closeModal} />
+              </div>
             </div>
           </div>
         )}
 
-        {/* Contact Modal */}
         {activeModal === "contact" && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-            onClick={() => setActiveModal(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm"
+            onClick={closeModal}
           >
             <div
-              className="bg-gray-700 dark:bg-gray-100 p-4 lg:p-6 rounded-lg w-[90%] lg:w-[40%] shadow-lg"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="contact-title"
+              className="w-full max-w-md rounded-3xl bg-neutral-900 p-5 text-white shadow-2xl dark:bg-white dark:text-neutral-900 sm:p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <h2 className="text-2xl font-bold mb-4 mb-10 ">{t("contactUs")}</h2>
-              <p className="text-gray-300 dark:text-gray-800 mb-2">
-                <strong>{t("phone")}: </strong>
-                <a href="tel:+37061234567" className="text-yellow-400 dark:text-yellow-500 hover:underline">
-                  +370 612 34567
-                </a>
-              </p>
-              <p className="text-gray-300 dark:text-gray-800 mb-2 text-sm lg:text-base">
+              <h2 id="contact-title" className="text-2xl font-bold">
+                {t("contactUs")}
+              </h2>
+              <a
+                href={`tel:${WORKSHOP_PHONE}`}
+                className="mt-5 flex items-center gap-3 rounded-2xl transition hover:opacity-80"
+              >
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-yellow-400 text-black">
+                  <IoCall size={22} aria-hidden />
+                </span>
+                <span>
+                  <span className="block text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                    {t("phone")}
+                  </span>
+                  <span className="text-lg font-semibold">{WORKSHOP_PHONE_LABEL}</span>
+                </span>
+              </a>
+              <p className="mt-4 text-sm text-gray-300 dark:text-gray-700">
                 <strong>{t("workingHours")}: </strong>
                 {t("monFri")}: 08:00 - 18:00
               </p>
-              <p className="text-gray-300 dark:text-gray-800 text-sm lg:text-base mb-10 lg:mb-5">
-                <strong>{t("address")}: </strong> Elnio g. 18, Šiauliai, 76281 Šiaulių m. sav
+              <p className="mt-2 text-sm text-gray-300 dark:text-gray-700">
+                <strong>{t("address")}: </strong>
+                {WORKSHOP_ADDRESS}
               </p>
-              <StyledButton text={t("close" as keyof Translations)} onClick={() => setActiveModal(null)} />
+              <div className="mt-5">
+                <StyledButton compact variant="secondary" text={t("close" as keyof Translations)} onClick={closeModal} />
+              </div>
             </div>
           </div>
         )}
 
-
-        <div className=" flex-grow min-h-full flex-grow w-full bg-white/10 dark:bg-white/30 rounded-xl flex flex-col border-2 border-transparent items-center
-            animate-[pulseGlow_1.5s_ease-in-out_infinite] dark:animate-[darkPulseGlow_1.5s_ease-in-out_infinite]">
-
-
-
-
-
-
-          {/* Header */}
+        <div className="flex min-h-0 w-full flex-1 flex-col items-center overflow-hidden rounded-2xl border border-white/15 bg-white/10 px-3 pt-3 dark:border-black/10 dark:bg-white/25 lg:px-5 lg:pt-4">
           <Header
             setLocationModalOpen={() => setActiveModal("location")}
             setContactModalOpen={() => setActiveModal("contact")}
             onLogoClick={() => setIsServicesPage(false)}
             onServicesClick={() => setIsServicesPage(true)}
+            wide={isServicesPage}
           />
-          <main className="flex-grow flex flex-col justify-center items-center w-[100%] lg:w-[60%] py-8 px-4 lg:px-0" >
+          <main
+            className={`flex min-h-0 w-full flex-1 flex-col items-center ${
+              isServicesPage ? "max-w-6xl overflow-y-auto py-4" : "overflow-hidden py-3 lg:w-[68%]"
+            }`}
+          >
             {isServicesPage ? (
-              <div className="text-center w-full lg:my-20 mt-5" >
-                <div className="text-center my-8">
-                  <h1 className="text-4xl md:text-6xl font-extrabold text-gray-100 dark:text-gray-800">
-                    {t("servicesPageTitle")}
-                  </h1>
-                  <p className="mt-4 text-lg md:text-xl text-gray-300 dark:text-gray-600 max-w-2xl mx-auto">
-                    {t("servicesPageSubtitle")}
-                  </p>
-                  <p className="mt-2 italic text-sm md:text-lg text-gray-400 dark:text-gray-500">
-                    {t("servicesPageSlogan")}
-                  </p>
+              <div className="w-full pb-6 text-center">
+                <h1 className="text-3xl font-extrabold text-gray-100 dark:text-gray-800 md:text-5xl">
+                  {t("servicesPageTitle")}
+                </h1>
+                <p className="mx-auto mt-3 max-w-2xl text-base text-gray-300 dark:text-gray-600 md:text-lg">
+                  {t("servicesPageSubtitle")}
+                </p>
+                <div className="mt-6">
+                  <ServiceCards />
                 </div>
-                <ServiceCards />
               </div>
             ) : (
-              <div className="flex flex-col-reverse lg:flex-row w-full max-w-5xl xl:max-w-screen-xl 2xl:max-w-screen-2xl gap-8 xl:gap-12 2xl:gap-16 mt-5 ">
-                {/* Left Side: Text Content */}
-                <div className="text-left lg:w-1/2">
-                  <p className="italic text-gray-400 dark:text-gray-600 text-lg 2xl:text-xl">
-                    {t("subheadline")}
-                  </p>
-                  <h1 className="text-4xl md:text-5xl 2xl:text-6xl font-black my-4">
+              <div className="flex h-full min-h-0 w-full flex-col-reverse gap-2 lg:flex-row lg:gap-8">
+                <div className="flex shrink-0 flex-col justify-center lg:w-[46%]">
+                  <p className="text-sm text-gray-400 dark:text-gray-600 lg:text-base">{t("subheadline")}</p>
+                  <h1 className="my-2 text-3xl font-black leading-[0.95] sm:text-4xl lg:my-3 lg:text-5xl xl:text-6xl">
                     {t("headline")}
                   </h1>
-                  <p className="text-lg 2xl:text-xl text-gray-300 dark:text-gray-700 lg:mb-6">
+                  <p className="text-sm leading-relaxed text-gray-300 dark:text-gray-700 lg:text-base">
                     {t("description")}
                   </p>
                   <StyledButton
@@ -135,30 +165,27 @@ export default function Home() {
                     onClick={() => setActiveModal("contact")}
                   />
                 </div>
-
-                {/* Right Side: Image */}
-                <div className="flex justify-center w-full lg:w-1/2 my-[100] lg:my-0">
+                <div className="relative min-h-0 w-full flex-1">
                   <Image
                     src={carImage}
                     alt={t("openGraph.image_alt" as keyof Translations)}
-                    width={1000}
-                    height={750}
-                    className="rounded-lg object-contain w-full lg:w-[120%] 2xl:w-[95%] 2xl:max-w-[1000px] h-auto"
+                    fill
+                    sizes="(min-width: 1024px) 36vw, 90vw"
+                    className="object-contain object-center"
                     priority
                   />
                 </div>
               </div>
-
-
             )}
           </main>
-          {/* Footer */}
           {!isServicesPage && (
-            <footer className="bg-white/20 dark:bg-white/40 w-full py-1 mt-10 rounded-xl">
-              <IconCards />
-            </footer>
-          )}</div>
+            <div className="w-full shrink-0 border-t border-white/10 dark:border-black/10">
+              <IconCards onOpenServices={() => setIsServicesPage(true)} />
+            </div>
+          )}
+        </div>
         <Footer />
-      </section></>
+      </section>
+    </>
   );
 }

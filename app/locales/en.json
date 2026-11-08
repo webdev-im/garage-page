@@ -11,6 +11,7 @@
   "address": "Address",
   "services": "Our Services",
   "map": "Map",
+  "directions": "Directions",
   "ourLocation": "Our location",
   "close": "Close",
   "reserveNow": "Reserve Now",
@@ -42,51 +43,87 @@
   "icons": {
     "battery": {
       "name": "Battery",
-      "description": "Battery check and replacement services"
+      "description": "We test whether the battery is tired or something else is draining it, and replace it only if it is finished.",
+      "point1": "Charge and health test",
+      "point2": "Terminals, alternator, and parasitic drain",
+      "point3": "Replacement fitted and tested"
     },
     "brake": {
       "name": "Brakes",
-      "description": "Brake repair and maintenance"
+      "description": "A soft pedal, a pull to one side, or a grind — we find the worn part and replace what is actually due.",
+      "point1": "Pads, discs, and caliper check",
+      "point2": "Brake fluid condition",
+      "point3": "Warning lights and the handbrake"
     },
     "dashboard": {
       "name": "Dashboard",
-      "description": "Dashboard diagnostics and repair"
+      "description": "Warning lamps and dead gauges usually mean a sensor or a cluster fault, so we read the car before replacing parts.",
+      "point1": "Warning light diagnosis",
+      "point2": "Instrument cluster faults",
+      "point3": "Sensors tied to the gauges"
     },
     "electric": {
       "name": "Electronics",
-      "description": "Electrical system check-up"
+      "description": "Drains, windows, lights, and sensors — we trace the fault instead of swapping parts until something changes.",
+      "point1": "Charging and battery drain",
+      "point2": "Lights, windows, and central locking",
+      "point3": "Wiring and sensor faults"
     },
     "filter": {
-      "name": "Filter",
-      "description": "Filter replacement for cleaner performance"
+      "name": "Filters",
+      "description": "A filter left too long makes the engine, the cabin, and the fuel system work harder than they should.",
+      "point1": "Oil, air, and cabin filters",
+      "point2": "Fuel filter, when the car uses one",
+      "point3": "Fitted to the interval that suits the car"
     },
     "fuel": {
-      "name": "Fuel System",
-      "description": "Fuel system maintenance and repairs"
+      "name": "Fuel system",
+      "description": "Hard starting, hesitation, or a fuel smell often starts here, so we check delivery before replacing expensive parts.",
+      "point1": "Pump, lines, and pressure",
+      "point2": "Injectors and the fuel filter",
+      "point3": "Poor running and high consumption"
     },
     "gearbox": {
       "name": "Gearbox",
-      "description": "Gearbox inspection and repairs"
+      "description": "Slipping, a harsh shift, or a noise in one gear — we check the box and tell you if it is fluid, linkage, or more.",
+      "point1": "Manual and automatic checks",
+      "point2": "Fluid level, where it can be checked",
+      "point3": "Noise, slip, and shift quality"
     },
     "ignition": {
       "name": "Ignition",
-      "description": "Ignition system diagnostics"
+      "description": "Misfires and long cranks are often a plug, a coil, or a lead, confirmed with a test rather than a guess.",
+      "point1": "Spark plugs and coils",
+      "point2": "Misfires and hard starting",
+      "point3": "Related fault codes"
     },
     "repairs": {
       "name": "Repairs",
-      "description": "General car repair services"
+      "description": "The job that does not fit one label: a noise, a leak, or a car that simply will not go.",
+      "point1": "Mechanical fault finding",
+      "point2": "What is urgent, and what can wait",
+      "point3": "Work starts only after you agree"
     },
     "rotor": {
-      "name": "Rotor",
-      "description": "Rotor repair and replacement"
+      "name": "Brake discs",
+      "description": "Scored or pulsing discs waste a new set of pads, so we measure them and replace in pairs when they are out of spec.",
+      "point1": "Thickness and runout check",
+      "point2": "Disc and pad replacement",
+      "point3": "Vibration while braking"
     },
     "service": {
-      "name": "Service",
-      "description": "Full car service check"
+      "name": "Full service",
+      "description": "The scheduled visit: fluids, filters, and a look over the rest of the car so a small issue does not become a roadside one.",
+      "point1": "Engine oil and filters",
+      "point2": "Fluids, lights, and brakes checked",
+      "point3": "A clear note of what we found"
     },
     "steering_wheel": {
-      "name": "Steering System",
-      "description": "Steering adjustment and repairs"
+      "name": "Steering",
+      "description": "Play in the wheel, a pull, or a groan as you turn — we check the joints and the assistance before it gets worse.",
+      "point1": "Play, leaks, and worn joints",
+      "point2": "Power steering feel",
+      "point3": "Pulling and vibration"
     }
   }
 }
