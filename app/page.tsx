@@ -10,7 +10,6 @@ import StyledButton from "./components/action/StyledButton";
 import { Translations } from "./context/LanguageContext";
 import { useLanguage } from "./context/LanguageContext";
 import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
 import { IoCall } from "react-icons/io5";
 
 const WORKSHOP_PHONE = "+37061234567";
@@ -22,47 +21,72 @@ const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${enc
 
 export default function Home() {
   const { t, isLoaded } = useLanguage();
-  const { theme } = useTheme();
 
   const [isServicesPage, setIsServicesPage] = useState(false);
   const [activeModal, setActiveModal] = useState<"location" | "contact" | null>(null);
+  const [modalClosing, setModalClosing] = useState(false);
+
+  const openModal = (modal: "location" | "contact") => {
+    setActiveModal(modal);
+    setModalClosing(false);
+  };
+
+  const closeModal = () => {
+    if (!activeModal) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setActiveModal(null);
+      setModalClosing(false);
+      return;
+    }
+    setModalClosing(true);
+  };
 
   useEffect(() => {
     if (!activeModal) return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setActiveModal(null);
+      if (event.key === "Escape") closeModal();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [activeModal]);
+  }, [activeModal, modalClosing]);
+
+  useEffect(() => {
+    if (!modalClosing) return;
+    const timeout = window.setTimeout(() => {
+      setActiveModal(null);
+      setModalClosing(false);
+    }, 200);
+    return () => window.clearTimeout(timeout);
+  }, [modalClosing]);
 
   if (!isLoaded) {
     return <div className="flex h-dvh items-center justify-center">Loading...</div>;
   }
 
-  const carImage = theme === "dark" ? "/blackCar.webp" : "/yellowCar.webp";
-  const closeModal = () => setActiveModal(null);
-
   return (
     <>
       <DynamicMetadata />
-      <section className="flex h-dvh flex-col overflow-hidden bg-darkGradient p-3 pb-0 text-gray-100 dark:bg-yellowGradient dark:text-gray-900 sm:p-4 lg:p-5 lg:pb-0">
+      <section className="relative flex h-dvh flex-col overflow-hidden bg-[#efe8dc] text-neutral-900 dark:bg-[#121316] dark:text-neutral-100">
+        <div className="hero-atmosphere" aria-hidden>
+          <div className="hero-wash" />
+          <div className="hero-grid" />
+        </div>
         {activeModal === "location" && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm"
+            className={`modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm ${modalClosing ? "is-closing" : ""}`}
             onClick={closeModal}
           >
             <div
               role="dialog"
               aria-modal="true"
               aria-labelledby="location-title"
-              className="max-h-[calc(100dvh-2rem)] w-full max-w-2xl overflow-y-auto rounded-3xl bg-neutral-900 p-5 text-white shadow-2xl dark:bg-white dark:text-neutral-900 sm:p-6"
+              className={`modal-panel max-h-[calc(100dvh-2rem)] w-full max-w-2xl overflow-y-auto rounded-3xl bg-white p-5 text-neutral-900 shadow-2xl dark:bg-neutral-900 dark:text-white sm:p-6 ${modalClosing ? "is-closing" : ""}`}
               onClick={(e) => e.stopPropagation()}
             >
               <h2 id="location-title" className="text-2xl font-bold">
                 {t("location")}
               </h2>
-              <p className="mt-2 text-gray-300 dark:text-gray-700">{WORKSHOP_ADDRESS}</p>
+              <p className="mt-2 text-neutral-600 dark:text-neutral-300">{WORKSHOP_ADDRESS}</p>
               <div className="mt-4 h-56 overflow-hidden rounded-2xl bg-gray-200 sm:h-64">
                 <iframe
                   title={t("location")}
@@ -83,14 +107,14 @@ export default function Home() {
 
         {activeModal === "contact" && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm"
+            className={`modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm ${modalClosing ? "is-closing" : ""}`}
             onClick={closeModal}
           >
             <div
               role="dialog"
               aria-modal="true"
               aria-labelledby="contact-title"
-              className="w-full max-w-md rounded-3xl bg-neutral-900 p-5 text-white shadow-2xl dark:bg-white dark:text-neutral-900 sm:p-6"
+              className={`modal-panel w-full max-w-md rounded-3xl bg-white p-5 text-neutral-900 shadow-2xl dark:bg-neutral-900 dark:text-white sm:p-6 ${modalClosing ? "is-closing" : ""}`}
               onClick={(e) => e.stopPropagation()}
             >
               <h2 id="contact-title" className="text-2xl font-bold">
@@ -104,17 +128,17 @@ export default function Home() {
                   <IoCall size={22} aria-hidden />
                 </span>
                 <span>
-                  <span className="block text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                  <span className="block text-xs uppercase tracking-widest text-neutral-500">
                     {t("phone")}
                   </span>
                   <span className="text-lg font-semibold">{WORKSHOP_PHONE_LABEL}</span>
                 </span>
               </a>
-              <p className="mt-4 text-sm text-gray-300 dark:text-gray-700">
+              <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-300">
                 <strong>{t("workingHours")}: </strong>
                 {t("monFri")}: 08:00 - 18:00
               </p>
-              <p className="mt-2 text-sm text-gray-300 dark:text-gray-700">
+              <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
                 <strong>{t("address")}: </strong>
                 {WORKSHOP_ADDRESS}
               </p>
@@ -125,64 +149,78 @@ export default function Home() {
           </div>
         )}
 
-        <div className="flex min-h-0 w-full flex-1 flex-col items-center overflow-hidden rounded-2xl border border-white/15 bg-white/10 px-3 pt-3 dark:border-black/10 dark:bg-white/25 lg:px-5 lg:pt-4">
+        <div className="relative z-10 mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col px-4 sm:px-6">
           <Header
-            setLocationModalOpen={() => setActiveModal("location")}
-            setContactModalOpen={() => setActiveModal("contact")}
+            setLocationModalOpen={() => openModal("location")}
+            setContactModalOpen={() => openModal("contact")}
             onLogoClick={() => setIsServicesPage(false)}
             onServicesClick={() => setIsServicesPage(true)}
-            wide={isServicesPage}
           />
-          <main
-            className={`flex min-h-0 w-full flex-1 flex-col items-center ${
-              isServicesPage ? "max-w-6xl overflow-y-auto py-4" : "overflow-hidden py-3 lg:w-[68%]"
-            }`}
-          >
+          <main className={`min-h-0 w-full flex-1 ${isServicesPage ? "overflow-y-auto py-8" : "overflow-hidden"}`}>
             {isServicesPage ? (
-              <div className="w-full pb-6 text-center">
-                <h1 className="text-3xl font-extrabold text-gray-100 dark:text-gray-800 md:text-5xl">
+              <div key="services" className="content-enter w-full pb-8 text-center">
+                <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-500">
+                  {t("services")}
+                </p>
+                <h1 className="mt-3 text-3xl font-black tracking-tight text-neutral-950 dark:text-white md:text-5xl">
                   {t("servicesPageTitle")}
                 </h1>
-                <p className="mx-auto mt-3 max-w-2xl text-base text-gray-300 dark:text-gray-600 md:text-lg">
+                <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 md:text-base">
                   {t("servicesPageSubtitle")}
                 </p>
-                <div className="mt-6">
+                <div className="mt-8">
                   <ServiceCards />
                 </div>
               </div>
             ) : (
-              <div className="flex h-full min-h-0 w-full flex-col-reverse gap-2 lg:flex-row lg:gap-8">
-                <div className="flex shrink-0 flex-col justify-center lg:w-[46%]">
-                  <p className="text-sm text-gray-400 dark:text-gray-600 lg:text-base">{t("subheadline")}</p>
-                  <h1 className="my-2 text-3xl font-black leading-[0.95] sm:text-4xl lg:my-3 lg:text-5xl xl:text-6xl">
-                    {t("headline")}
-                  </h1>
-                  <p className="text-sm leading-relaxed text-gray-300 dark:text-gray-700 lg:text-base">
-                    {t("description")}
-                  </p>
-                  <StyledButton
-                    text={t("reserveNow" as keyof Translations)}
-                    onClick={() => setActiveModal("contact")}
-                  />
+              <div key="home" className="content-enter flex h-full min-h-0 w-full flex-col justify-end lg:justify-center">
+                <div className="flex w-full flex-col-reverse items-center gap-2 lg:flex-row lg:items-center lg:gap-6">
+                  <div className="flex w-full shrink-0 flex-col justify-center lg:w-[46%]">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-500">
+                      {t("subheadline")}
+                    </p>
+                    <h1 className="mt-3 text-4xl font-black leading-[0.92] tracking-tight text-neutral-950 dark:text-white sm:text-5xl lg:text-6xl">
+                      {t("headline")}
+                    </h1>
+                    <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 lg:text-base">
+                      {t("description")}
+                    </p>
+                    <StyledButton
+                      text={t("reserveNow" as keyof Translations)}
+                      onClick={() => openModal("contact")}
+                    />
+                  </div>
+                  <div className="relative h-52 w-full sm:h-64 lg:h-[min(62vh,540px)] lg:flex-1">
+                    <div className="pointer-events-none absolute inset-x-[18%] inset-y-[16%] lg:inset-x-[20%] lg:inset-y-[18%]">
+                      <div className="pointer-events-none absolute inset-x-[8%] bottom-[6%] h-10 rounded-full bg-black/15 blur-2xl dark:bg-black/60" />
+                      <Image
+                        src="/blackCar.webp"
+                        alt={t("openGraph.image_alt" as keyof Translations)}
+                        fill
+                        sizes="(min-width: 1024px) 34vw, 90vw"
+                        className="object-contain object-center dark:hidden"
+                        priority
+                      />
+                      <Image
+                        src="/yellowCar.webp"
+                        alt=""
+                        fill
+                        sizes="(min-width: 1024px) 34vw, 90vw"
+                        className="hidden object-contain object-center dark:block"
+                        priority
+                      />
+                    </div>
+                    <div className="absolute inset-0 hidden lg:block">
+                      <IconCards layout="orbit" onOpenServices={() => setIsServicesPage(true)} />
+                    </div>
+                  </div>
                 </div>
-                <div className="relative min-h-0 w-full flex-1">
-                  <Image
-                    src={carImage}
-                    alt={t("openGraph.image_alt" as keyof Translations)}
-                    fill
-                    sizes="(min-width: 1024px) 36vw, 90vw"
-                    className="object-contain object-center"
-                    priority
-                  />
+                <div className="mt-2 w-full shrink-0 lg:hidden">
+                  <IconCards onOpenServices={() => setIsServicesPage(true)} />
                 </div>
               </div>
             )}
           </main>
-          {!isServicesPage && (
-            <div className="w-full shrink-0 border-t border-white/10 dark:border-black/10">
-              <IconCards onOpenServices={() => setIsServicesPage(true)} />
-            </div>
-          )}
         </div>
         <Footer />
       </section>

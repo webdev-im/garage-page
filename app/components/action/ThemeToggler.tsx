@@ -3,7 +3,7 @@
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 
-import { useTheme } from "next-themes";
+import { useTheme } from "../layout/ThemeWrapper";
 
 export const ThemeToggler = () => {
   const { theme, setTheme } = useTheme();
@@ -20,12 +20,12 @@ export const ThemeToggler = () => {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="lg:px-1.5 lg:py-1 p-2 bg-gray-200 dark:bg-gray-700 rounded-full transition ml-3 aspect-ratio: 1 / 1"
+      className="rounded-full border border-black/10 p-2 transition hover:bg-black/5 dark:border-white/15 dark:hover:bg-white/10"
     >
       {theme === "dark" ? (
-        <SunIcon className="w-5 h-5 text-yellow-400" />
+        <SunIcon className="h-5 w-5 text-yellow-400" />
       ) : (
-        <MoonIcon className="w-5 h-5 text-gray-900" />
+        <MoonIcon className="h-5 w-5 text-neutral-800" />
       )}
     </button>
   );

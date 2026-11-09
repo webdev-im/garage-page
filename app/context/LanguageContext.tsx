@@ -16,6 +16,7 @@ export interface Translations {
   cta: string;
   contact: string;
   services: string;
+  brandService: string;
   map: string;
   directions: string;
   location: string;
@@ -77,6 +78,7 @@ const getSafeTranslations = (data: Partial<Translations>): Translations => ({
   cta: data.cta ?? "Click Here",
   contact: data.contact ?? "Contact Us",
   services: data.services ?? "Our Services",
+  brandService: data.brandService ?? "Service",
   map: data.map ?? "Find Us",
   directions: data.directions ?? "Directions",
   location: data.location ?? "Location",
