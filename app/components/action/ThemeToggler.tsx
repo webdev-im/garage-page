@@ -20,7 +20,7 @@ export const ThemeToggler = () => {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="rounded-full border border-black/10 p-2 transition hover:bg-black/5 dark:border-white/15 dark:hover:bg-white/10"
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 transition hover:bg-black/5 dark:border-white/15 dark:hover:bg-white/10"
     >
       {theme === "dark" ? (
         <SunIcon className="h-5 w-5 text-yellow-400" />

@@ -108,52 +108,106 @@ p::before {
   content: "";
 }
 
-.hero-atmosphere {
+.studio {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
 }
 
-.hero-wash {
+.studio-light {
   position: absolute;
-  inset: -18%;
-  background:
-    radial-gradient(ellipse 42% 48% at 72% 46%, rgba(214, 158, 18, 0.28), rgba(250, 204, 21, 0.1) 52%, transparent 74%),
-    radial-gradient(ellipse 28% 34% at 18% 80%, rgba(180, 120, 8, 0.1), transparent 72%),
-    radial-gradient(ellipse 100% 42% at 50% 108%, rgba(90, 68, 24, 0.05), transparent 74%);
-  animation: hero-drift 16s ease-in-out infinite alternate;
+  top: -15%;
+  right: -8%;
+  width: 62%;
+  height: 80%;
+  background: linear-gradient(118deg, transparent 16%, rgba(255, 186, 70, 0.34) 46%, transparent 70%);
+  filter: blur(6px);
 }
 
-.dark .hero-wash {
-  background:
-    radial-gradient(ellipse 46% 40% at 68% 46%, rgba(250, 204, 21, 0.2), transparent 64%),
-    radial-gradient(ellipse 34% 30% at 14% 82%, rgba(250, 204, 21, 0.1), transparent 70%),
-    radial-gradient(ellipse 80% 46% at 50% 100%, rgba(255, 255, 255, 0.05), transparent 70%);
+.dark .studio-light {
+  background: linear-gradient(118deg, transparent 22%, rgba(255, 214, 140, 0.09) 47%, transparent 70%);
 }
 
-.hero-grid {
+.studio-vignette {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(70, 52, 16, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(70, 52, 16, 0.07) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 85% 75% at 58% 46%, #000 15%, transparent 74%);
+  background: radial-gradient(ellipse 75% 68% at 70% 46%, transparent 42%, rgba(48, 38, 24, 0.09) 100%);
 }
 
-.dark .hero-grid {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+.dark .studio-vignette {
+  background: radial-gradient(ellipse 70% 62% at 68% 44%, transparent 36%, rgba(0, 0, 0, 0.55) 100%);
 }
 
-@keyframes hero-drift {
+.wind-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  color: rgba(62, 50, 34, 0.55);
+}
+
+.dark .wind-field {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.wind-field path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+}
+
+.wind-field .ghost {
+  stroke-width: 10;
+  opacity: 0.2;
+  filter: blur(7px);
+}
+
+.wind-field .flow {
+  stroke-width: 2.2;
+  opacity: 0.45;
+  filter: blur(2.8px);
+  stroke-dasharray: 860 140;
+  animation: wind-drift 20s linear infinite;
+}
+
+.wind-field .flow.warm {
+  color: rgba(168, 112, 28, 0.55);
+}
+
+.dark .wind-field .flow.warm {
+  color: rgba(255, 214, 150, 0.45);
+}
+
+@keyframes wind-drift {
   from {
-    transform: translate3d(0, 0, 0) scale(1);
+    stroke-dashoffset: 1000;
   }
   to {
-    transform: translate3d(-2.5%, 1.5%, 0) scale(1.08);
+    stroke-dashoffset: 0;
+  }
+}
+
+.grain {
+  position: absolute;
+  inset: -20%;
+  opacity: 0.14;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.dark .grain {
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+}
+
+@media (max-width: 1023px) {
+  .studio-light {
+    top: -8%;
+    right: -20%;
+    width: 100%;
+    height: 48%;
   }
 }
 
@@ -286,8 +340,15 @@ p::before {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background: #facc15;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  background: #fff;
+  border: 1px solid rgba(23, 23, 23, 0.1);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.dark .orbit-dot {
+  background: #1c1e24;
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
 }
 
 .orbit-card {
@@ -327,7 +388,7 @@ p::before {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-wash,
+  .wind-field,
   .content-enter,
   .drawer-backdrop,
   .drawer-panel,

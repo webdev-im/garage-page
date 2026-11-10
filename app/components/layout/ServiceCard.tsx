@@ -8,13 +8,13 @@ export function ServiceCard({
     return (
         <article className="flex h-full flex-col rounded-2xl border border-black/10 bg-white p-5 text-left text-neutral-900 transition duration-200 hover:border-yellow-500/70 dark:border-white/10 dark:bg-neutral-900 dark:text-white dark:hover:border-yellow-400/70">
             <div className="flex items-center gap-3.5">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-yellow-400">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-neutral-100 dark:bg-white/10">
                     <Image
                         src={`/icons/${service.icon}`}
                         alt=""
                         width={32}
                         height={32}
-                        className="h-7 w-7 object-contain"
+                        className="h-7 w-7 object-contain dark:invert"
                         unoptimized
                     />
                 </div>

@@ -9,7 +9,7 @@ import ServiceCards from "./components/layout/ServiceCards";
 import StyledButton from "./components/action/StyledButton";
 import { Translations } from "./context/LanguageContext";
 import { useLanguage } from "./context/LanguageContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoCall } from "react-icons/io5";
 
 const WORKSHOP_PHONE = "+37061234567";
@@ -19,12 +19,107 @@ const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=${enc
   "Elnio g. 18, Šiauliai, 76281"
 )}&travelmode=driving`;
 
+type WindStream = { d: string; dur: string; delay: string; warm?: boolean };
+
+function windStreams(
+  width: number,
+  height: number,
+  car: { left: number; right: number; top: number; bottom: number }
+): WindStream[] {
+  const nose = car.right;
+  const tail = car.left;
+  const roof = car.top;
+  const belly = car.bottom;
+  const carW = Math.max(nose - tail, 1);
+  const carH = Math.max(belly - roof, 1);
+
+  if (width < 1024) {
+    const over = roof - Math.max(8, carH * 0.1);
+    const under = belly + Math.max(6, carH * 0.06);
+    const specs = [
+      { y: Math.max(20, roof - carH * 0.65), wake: null as number | null },
+      { y: roof + carH * 0.32, wake: over },
+      { y: roof + carH * 0.48, wake: over - carH * 0.14 },
+      { y: roof + carH * 0.68, wake: under },
+    ];
+    return specs.map((spec, index) => {
+      const front = nose + carW * 0.05;
+      const settle = tail + carW * 0.38;
+      const d =
+        spec.wake == null
+          ? `M ${width + 50} ${spec.y} L ${-50} ${spec.y}`
+          : `M ${width + 40} ${spec.y} L ${front + carW * 0.1} ${spec.y} C ${front} ${spec.y}, ${nose - carW * 0.1} ${spec.wake}, ${settle} ${spec.wake} L ${-40} ${spec.wake}`;
+      return {
+        d,
+        dur: `${16 + index * 2.6}s`,
+        delay: `${-index * 2.7}s`,
+        warm: index === 2,
+      };
+    });
+  }
+
+  const mid = (roof + belly) / 2;
+  const levels = [0.08, 0.2, 0.34, 0.46, 0.58, 0.7, 0.86];
+
+  return levels.map((level, index) => {
+    const y = height * level;
+    const hits = y > roof + 12 && y < belly - 12;
+    let d: string;
+    if (!hits) {
+      d = `M ${width + 180} ${y} L ${-180} ${y}`;
+    } else {
+      const upper = y < mid;
+      const t = upper ? (mid - y) / (mid - roof) : (y - mid) / (belly - mid);
+      const wake = upper ? roof - 22 - t * 34 : belly + 18 + t * 30;
+      const front = nose + 20;
+      d = `M ${width + 180} ${y} L ${front + 130} ${y} C ${front} ${y}, ${nose - 80} ${wake}, ${tail + (nose - tail) * 0.42} ${wake} L ${-180} ${wake}`;
+    }
+    return {
+      d,
+      dur: `${18 + index * 2.4}s`,
+      delay: `${-index * 3.1}s`,
+      warm: index === 3,
+    };
+  });
+}
+
 export default function Home() {
   const { t, isLoaded } = useLanguage();
 
+  const carRef = useRef<HTMLDivElement>(null);
+  const [wind, setWind] = useState<{ w: number; h: number; streams: WindStream[] } | null>(null);
   const [isServicesPage, setIsServicesPage] = useState(false);
   const [activeModal, setActiveModal] = useState<"location" | "contact" | null>(null);
   const [modalClosing, setModalClosing] = useState(false);
+
+  useEffect(() => {
+    if (isServicesPage) return;
+    const car = carRef.current;
+    const section = car?.closest("section");
+    if (!car || !section) return;
+
+    const measure = () => {
+      const bounds = section.getBoundingClientRect();
+      const box = car.getBoundingClientRect();
+      if (bounds.width < 40 || box.width < 40) return;
+      const next = {
+        w: bounds.width,
+        h: bounds.height,
+        streams: windStreams(bounds.width, bounds.height, {
+          left: box.left - bounds.left,
+          right: box.right - bounds.left,
+          top: box.top - bounds.top,
+          bottom: box.bottom - bounds.top,
+        }),
+      };
+      setWind((prev) => (prev && prev.w === next.w && prev.h === next.h ? prev : next));
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [isServicesPage, isLoaded]);
 
   const openModal = (modal: "location" | "contact") => {
     setActiveModal(modal);
@@ -67,9 +162,25 @@ export default function Home() {
     <>
       <DynamicMetadata />
       <section className="relative flex h-dvh flex-col overflow-hidden bg-[#efe8dc] text-neutral-900 dark:bg-[#121316] dark:text-neutral-100">
-        <div className="hero-atmosphere" aria-hidden>
-          <div className="hero-wash" />
-          <div className="hero-grid" />
+        <div className="studio" aria-hidden>
+          <div className="studio-light" />
+          {wind && !isServicesPage && (
+            <svg className="wind-field" viewBox={`0 0 ${wind.w} ${wind.h}`} preserveAspectRatio="none" aria-hidden>
+              {wind.streams.map((stream, index) => (
+                <g key={index}>
+                  <path className="ghost" d={stream.d} pathLength={1000} />
+                  <path
+                    className={stream.warm ? "flow warm" : "flow"}
+                    d={stream.d}
+                    pathLength={1000}
+                    style={{ animationDuration: stream.dur, animationDelay: stream.delay }}
+                  />
+                </g>
+              ))}
+            </svg>
+          )}
+          <div className="studio-vignette" />
+          <div className="grain" />
         </div>
         {activeModal === "location" && (
           <div
@@ -124,7 +235,7 @@ export default function Home() {
                 href={`tel:${WORKSHOP_PHONE}`}
                 className="mt-5 flex items-center gap-3 rounded-2xl transition hover:opacity-80"
               >
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-yellow-400 text-black">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-neutral-950 text-white dark:bg-white dark:text-neutral-950">
                   <IoCall size={22} aria-hidden />
                 </span>
                 <span>
@@ -175,7 +286,7 @@ export default function Home() {
             ) : (
               <div key="home" className="content-enter flex h-full min-h-0 w-full flex-col justify-end lg:justify-center">
                 <div className="flex w-full flex-col-reverse items-center gap-2 lg:flex-row lg:items-center lg:gap-6">
-                  <div className="flex w-full shrink-0 flex-col justify-center lg:w-[46%]">
+                  <div className="flex w-full shrink-0 flex-col justify-center lg:w-[38%]">
                     <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-500">
                       {t("subheadline")}
                     </p>
@@ -190,14 +301,14 @@ export default function Home() {
                       onClick={() => openModal("contact")}
                     />
                   </div>
-                  <div className="relative h-52 w-full sm:h-64 lg:h-[min(62vh,540px)] lg:flex-1">
-                    <div className="pointer-events-none absolute inset-x-[18%] inset-y-[16%] lg:inset-x-[20%] lg:inset-y-[18%]">
+                  <div className="relative h-52 w-full sm:h-64 lg:h-[min(76vh,680px)] lg:flex-1">
+                    <div ref={carRef} className="pointer-events-none absolute inset-x-[18%] inset-y-[16%] z-10 lg:inset-x-[8%] lg:inset-y-[8%]">
                       <div className="pointer-events-none absolute inset-x-[8%] bottom-[6%] h-10 rounded-full bg-black/15 blur-2xl dark:bg-black/60" />
                       <Image
                         src="/blackCar.webp"
                         alt={t("openGraph.image_alt" as keyof Translations)}
                         fill
-                        sizes="(min-width: 1024px) 34vw, 90vw"
+                        sizes="(min-width: 1024px) 48vw, 90vw"
                         className="object-contain object-center dark:hidden"
                         priority
                       />
@@ -205,7 +316,7 @@ export default function Home() {
                         src="/yellowCar.webp"
                         alt=""
                         fill
-                        sizes="(min-width: 1024px) 34vw, 90vw"
+                        sizes="(min-width: 1024px) 48vw, 90vw"
                         className="hidden object-contain object-center dark:block"
                         priority
                       />

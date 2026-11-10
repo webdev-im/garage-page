@@ -8,7 +8,7 @@ const Footer = () => {
     const { t, language } = useLanguage();
 
     return (
-        <footer className="relative w-full py-2 px-1 rounded-lg text-xs md:text-sm flex justify-end">
+        <footer className="relative flex w-full translate-y-[2px] justify-end rounded-lg py-2 pl-1 pr-5 text-xs md:text-sm">
 
 
             <div className="flex items-center space-x-1">

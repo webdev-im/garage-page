@@ -53,19 +53,19 @@ export default function IconCards({
                                     alt=""
                                     width={28}
                                     height={28}
-                                    className="h-6 w-6 object-contain"
+                                    className="h-6 w-6 object-contain dark:invert"
                                     unoptimized
                                 />
                             </span>
                             <span className={`orbit-card p-3 ${icon.card}`}>
                                 <span className="flex items-center gap-3">
-                                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-yellow-400">
+                                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-neutral-100 dark:bg-white/10">
                                         <Image
                                             src={`/icons/${icon.file}`}
                                             alt=""
                                             width={28}
                                             height={28}
-                                            className="h-6 w-6 object-contain"
+                                            className="h-6 w-6 object-contain dark:invert"
                                             unoptimized
                                         />
                                     </span>
