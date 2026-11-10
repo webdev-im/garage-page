@@ -32,53 +32,58 @@ function windStreams(
   const belly = car.bottom;
   const carW = Math.max(nose - tail, 1);
   const carH = Math.max(belly - roof, 1);
-
-  if (width < 1024) {
-    const over = roof - Math.max(8, carH * 0.1);
-    const under = belly + Math.max(6, carH * 0.06);
-    const specs = [
-      { y: Math.max(20, roof - carH * 0.65), wake: null as number | null },
-      { y: roof + carH * 0.32, wake: over },
-      { y: roof + carH * 0.48, wake: over - carH * 0.14 },
-      { y: roof + carH * 0.68, wake: under },
+  let gap = width < 720 ? 32 : 38;
+  const makeLines = (step: number) => {
+    const climb = Math.min(step * 4.4, carH * 0.34);
+    const skim = Math.min(step * 1.5, carH * 0.16);
+    const topExit = roof - step * 1.9;
+    const bottomExit = belly + step * 1.6;
+    return [
+      { y: topExit - step * 1.15, out: null },
+      { y: topExit - step * 0.45, out: null },
+      { y: roof + skim, out: topExit },
+      { y: roof + climb, out: roof - step * 0.7 },
+      { y: belly - climb, out: belly + step * 0.75 },
+      { y: belly - skim, out: bottomExit },
+      { y: bottomExit + step * 0.5, out: null },
+      { y: bottomExit + step * 1.35, out: null },
     ];
-    return specs.map((spec, index) => {
-      const front = nose + carW * 0.05;
-      const settle = tail + carW * 0.38;
-      const d =
-        spec.wake == null
-          ? `M ${width + 50} ${spec.y} L ${-50} ${spec.y}`
-          : `M ${width + 40} ${spec.y} L ${front + carW * 0.1} ${spec.y} C ${front} ${spec.y}, ${nose - carW * 0.1} ${spec.wake}, ${settle} ${spec.wake} L ${-40} ${spec.wake}`;
-      return {
-        d,
-        dur: `${16 + index * 2.6}s`,
-        delay: `${-index * 2.7}s`,
-        warm: index === 2,
-      };
-    });
+  };
+  let lines = makeLines(gap);
+  const spanOf = (rows: { y: number; out: number | null }[]) => {
+    const points = rows.flatMap((line) => (line.out == null ? [line.y] : [line.y, line.out]));
+    return Math.max(...points) - Math.min(...points);
+  };
+  while (spanOf(lines) > height - 36 && gap > 26) {
+    gap -= 2;
+    lines = makeLines(gap);
   }
 
-  const mid = (roof + belly) / 2;
-  const levels = [0.08, 0.2, 0.34, 0.46, 0.58, 0.7, 0.86];
+  const points = lines.flatMap((line) => (line.out == null ? [line.y] : [line.y, line.out]));
+  const minY = Math.min(...points);
+  const maxY = Math.max(...points);
+  let shift = 0;
+  if (maxY - minY <= height - 32) {
+    if (minY < 16) shift = 16 - minY;
+    if (maxY + shift > height - 16) shift = height - 16 - maxY;
+  }
 
-  return levels.map((level, index) => {
-    const y = height * level;
-    const hits = y > roof + 12 && y < belly - 12;
-    let d: string;
-    if (!hits) {
-      d = `M ${width + 180} ${y} L ${-180} ${y}`;
-    } else {
-      const upper = y < mid;
-      const t = upper ? (mid - y) / (mid - roof) : (y - mid) / (belly - mid);
-      const wake = upper ? roof - 22 - t * 34 : belly + 18 + t * 30;
-      const front = nose + 20;
-      d = `M ${width + 180} ${y} L ${front + 130} ${y} C ${front} ${y}, ${nose - 80} ${wake}, ${tail + (nose - tail) * 0.42} ${wake} L ${-180} ${wake}`;
-    }
+  const front = nose + carW * 0.16;
+  const cabin = nose - carW * 0.34;
+  const rear = tail + carW * 0.22;
+
+  return lines.map((line, index) => {
+    const y = line.y + shift;
+    const out = line.out == null ? null : line.out + shift;
+    const d =
+      out == null
+        ? `M ${width + 90} ${y} L ${-90} ${y}`
+        : `M ${width + 90} ${y} L ${front} ${y} C ${nose} ${y}, ${cabin} ${out}, ${rear} ${out} L ${-90} ${out}`;
     return {
       d,
-      dur: `${18 + index * 2.4}s`,
-      delay: `${-index * 3.1}s`,
-      warm: index === 3,
+      dur: `${18 + index * 2.1}s`,
+      delay: `${-index * 2.3}s`,
+      warm: index === 1 || index === 6,
     };
   });
 }
@@ -87,7 +92,7 @@ export default function Home() {
   const { t, isLoaded } = useLanguage();
 
   const carRef = useRef<HTMLDivElement>(null);
-  const [wind, setWind] = useState<{ w: number; h: number; streams: WindStream[] } | null>(null);
+  const [wind, setWind] = useState<{ w: number; h: number; signature: string; streams: WindStream[] } | null>(null);
   const [isServicesPage, setIsServicesPage] = useState(false);
   const [activeModal, setActiveModal] = useState<"location" | "contact" | null>(null);
   const [modalClosing, setModalClosing] = useState(false);
@@ -102,22 +107,28 @@ export default function Home() {
       const bounds = section.getBoundingClientRect();
       const box = car.getBoundingClientRect();
       if (bounds.width < 40 || box.width < 40) return;
+      const carBox = {
+        left: box.left - bounds.left,
+        right: box.right - bounds.left,
+        top: box.top - bounds.top,
+        bottom: box.bottom - bounds.top,
+      };
+      const signature = [bounds.width, bounds.height, carBox.left, carBox.top, carBox.right, carBox.bottom]
+        .map((value) => Math.round(value))
+        .join(":");
       const next = {
         w: bounds.width,
         h: bounds.height,
-        streams: windStreams(bounds.width, bounds.height, {
-          left: box.left - bounds.left,
-          right: box.right - bounds.left,
-          top: box.top - bounds.top,
-          bottom: box.bottom - bounds.top,
-        }),
+        signature,
+        streams: windStreams(bounds.width, bounds.height, carBox),
       };
-      setWind((prev) => (prev && prev.w === next.w && prev.h === next.h ? prev : next));
+      setWind((prev) => (prev && prev.signature === next.signature ? prev : next));
     };
 
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(section);
+    observer.observe(car);
     return () => observer.disconnect();
   }, [isServicesPage, isLoaded]);
 

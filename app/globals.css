@@ -209,6 +209,11 @@ p::before {
     width: 100%;
     height: 48%;
   }
+
+  .wind-field .ghost {
+    stroke-width: 6;
+    filter: blur(3.5px);
+  }
 }
 
 .content-enter {
