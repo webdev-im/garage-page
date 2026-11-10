@@ -54,6 +54,9 @@ export const Header = ({
             <span className="text-lg font-semibold leading-none tracking-tight text-neutral-950 dark:text-white">
               Giedriaus
             </span>
+            <span className="ml-1.5 text-[13px] font-medium uppercase leading-none tracking-[0.12em] text-neutral-600 dark:text-neutral-400">
+              {t("brandService")}
+            </span>
           </span>
         </div>
       </div>
